@@ -15,5 +15,7 @@ Github Tutorial:
 		git push
 
 	6. Do this so github recognizes you
-		git config --global user@email
+		git config --global user.email "my@example.com"
+		git config --global user.name "Your github name"
+
 
