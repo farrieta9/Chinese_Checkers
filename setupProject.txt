@@ -1,3 +1,16 @@
-Setup, run these commands...
-	git clone https://github.com/farrieta9/Chinese_Checkers.git
+Github Tutorial:
+	1. Get the project on your computer.  Run the following command:
+		git clone https://github.com/farrieta9/Chinese_Checkers.git
+
+	2. Pushing.  Which means to upload your changes to github.
+		git commit -am "Explain here what changes you made"
+	
+	3. Adding files and folders to github
+		git add filename
+
+	4. See the status.  This shows what files you have changed.  Anything in red means the file has been modified and not uploaded or it is not on the github account.
+		git status
+
+	5. Pushing changes.  To do this first make a commit than push:
+		git push
 
