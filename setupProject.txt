@@ -14,3 +14,6 @@ Github Tutorial:
 	5. Pushing changes.  To do this first make a commit than push:
 		git push
 
+	6. Do this so github recognizes you
+		git config --global user@email
+
