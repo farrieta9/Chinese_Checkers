@@ -1,0 +1,3 @@
+Setup, run these commands...
+	git clone https://github.com/farrieta9/Chinese_Checkers.git
+
