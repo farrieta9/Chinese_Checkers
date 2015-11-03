@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TestChineseCheckers
+namespace ChineseCheckersTest
 {
     [TestClass]
     public class UnitTest1
