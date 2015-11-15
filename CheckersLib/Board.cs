@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 namespace CheckersLib
 {
-    enum Space {None, Empty, Player1, Player2, Player3, Player4, Player5, Player6 }
-    class Board
+    public enum Space {None, Empty, Player1, Player2, Player3, Player4, Player5, Player6 }
+    public class Board
     {
         public static Space[,] StartingBoard = new Space[17, 17] {
             {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player1,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None},
@@ -40,14 +40,14 @@ namespace CheckersLib
             return getStartSpace(i, j) != Space.None;
         }
 
-        public static bool isEmpty(int i, int j)
+        public bool isEmpty(int i, int j)
         {
-            return getStartSpace(i, j) == Space.Empty;
+            return getSpace(i, j) == Space.Empty;
         }
 
-        public static bool isPlayer(int i, int j)
+        public bool isPlayer(int i, int j)
         {
-            var s = getStartSpace(i, j);
+            var s = getSpace(i, j);
             return  s != Space.Empty && s != Space.None;
         }
 

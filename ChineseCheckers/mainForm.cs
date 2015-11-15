@@ -7,11 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CheckersLib;
 
 namespace ChineseCheckers
 {
+
     public partial class mainForm : Form
     {
+        private Board thisBoard = new Board();
         public mainForm()
         {
             InitializeComponent();
@@ -22,7 +25,7 @@ namespace ChineseCheckers
             Application.Exit();
         }
 
-        private void mainForm_Paint(object sender, PaintEventArgs e)
+        /*private void mainForm_Paint(object sender, PaintEventArgs e)
         {
             int width = 15;
             int height = 15;
@@ -80,6 +83,53 @@ namespace ChineseCheckers
 
                 //Player 2
             }
+        }*/
+
+        private void mainForm_Paint(object sender, PaintEventArgs e)
+        {
+            int xstart = 100;
+            int ystart = 50;
+            int width = 15;
+            int height = 15;
+
+            List<SolidBrush> playerOne = new List<SolidBrush>();
+            for (int i = 0; i < 17; i++)
+            {
+                for (int j = 0; j < 17; j++)
+                {
+                    if (Board.isSpace(i, j))
+                    {
+                        Space sp = thisBoard.getSpace(i, j);
+                        int xPos = xstart + (2 * j - i) * width;
+                        int yPos = ystart + (2 * i) * width;
+                        SolidBrush newPiece = new SolidBrush(getColor(sp));
+
+                        playerOne.Add(newPiece);
+                        e.Graphics.FillEllipse(newPiece, xPos, yPos, width, height);
+                    }
+                }
+            }
+        }
+
+        private Color getColor(Space sp)
+        {
+            switch (sp)
+            {
+
+                case Space.Player1:
+                    return Color.Orange;
+                case Space.Player2:
+                    return Color.Yellow;
+                case Space.Player3:
+                    return Color.Green;
+                case Space.Player4:
+                    return Color.Blue;
+                case Space.Player5:
+                    return Color.Purple;
+                case Space.Player6:
+                    return Color.Red;
+            }
+            return Color.Brown;
         }
     }
 }
