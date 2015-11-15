@@ -89,7 +89,7 @@
             // tutorialToolStripMenuItem
             // 
             this.tutorialToolStripMenuItem.Name = "tutorialToolStripMenuItem";
-            this.tutorialToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tutorialToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.tutorialToolStripMenuItem.Text = "Tutorial";
             // 
             // mainForm
@@ -103,6 +103,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "mainForm";
             this.Text = "mainForm";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.mainForm_Paint);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
