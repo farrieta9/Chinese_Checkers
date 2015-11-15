@@ -39,5 +39,115 @@ namespace CheckersLib
         {
             return getStartSpace(i, j) != Space.None;
         }
+
+        public static bool isEmpty(int i, int j)
+        {
+            return getStartSpace(i, j) == Space.Empty;
+        }
+
+        public static bool isPlayer(int i, int j)
+        {
+            var s = getStartSpace(i, j);
+            return  s != Space.Empty && s != Space.None;
+        }
+
+        private Space[,] currBoard;
+
+        public Space getSpace(int i, int j)
+        {
+            if (i >= 0 && i < 17 && j >= 0 && j < 17)
+                return currBoard[i, j];
+            return Space.None;
+        }
+
+        public bool setSpace(int i, int j,Space sp)
+        {
+            if (validLocation(i, j) && currBoard[i, j] != Space.None && sp != Space.None)
+            {
+                currBoard[i, j] = sp;
+                return true;
+            }
+            return false;
+        }
+
+        public Board(Board SB)
+        {
+            setBoard(SB.currBoard);
+        }
+
+        public Board(Space[,] SB) 
+        {
+            setBoard(SB);
+        }
+
+        public Board()
+        {
+            setBoard(StartingBoard);
+        }
+
+        public void setBoard(Space[,] SB)
+        {
+            currBoard = new Space[17, 17];
+            for(int i =0; i< 17; ++i)
+            {
+                for (int j = 0; j < 17; ++j)
+                {
+                    currBoard[i, j] = SB[i, j];
+                }
+            }
+        }
+        public List<Tuple<int, int>> getMoves(int i, int j)
+        {
+            List<Tuple<int, int>> l = new List<Tuple<int, int>>();
+            if (!isPlayer(i, j)) return l;
+
+            bool[,] map = new bool[17, 17];
+            map[i, j] = true;
+
+            Queue<Tuple<int, int>> jump = new Queue<Tuple<int, int>>();
+
+            //walking
+            for (int id = -1; id <= 1; ++id)
+            {
+                for (int jd = -1; jd <= 1; ++jd)
+                {
+                    if (id + jd == 0) continue;
+                    if (isEmpty(i + id, j + jd))
+                        l.Add(new Tuple<int, int>(i + id, j + jd));
+                    else
+                        jump.Enqueue(new Tuple<int, int>(i + 2 * id, j + 2 * jd));
+
+                }
+            }
+
+            //jumping
+            while (jump.Count > 0)
+            {
+                Tuple<int, int> next = jump.Dequeue();
+                int ii = next.Item1;
+                int jj = next.Item2;
+                if (isEmpty(ii, jj) && !map[ii, jj])
+                {
+                    map[ii, jj] = true;
+                    l.Add(next);
+                    for(int id = -1; id <= 1; ++id)
+                    {
+                        for (int jd = -1; jd <= 1; ++jd)
+                        {
+                            if (id + jd == 0) continue;
+                            if (isPlayer(ii + id, jj + jd))
+                                jump.Enqueue(new Tuple<int, int>(ii + 2 * id, jj + 2 * jd));
+                        }
+                    }
+                }
+            }
+            return l;
+
+        }
+
+        private bool validLocation(int i, int j)
+        {
+            return i >= 0 && i < 17 && j >= 0 && j < 17;
+        }
     }
 }
