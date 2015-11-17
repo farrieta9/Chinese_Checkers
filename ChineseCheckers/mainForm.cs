@@ -131,5 +131,27 @@ namespace ChineseCheckers
             }
             return Color.Brown;
         }
+
+        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form currentForm = mainForm.ActiveForm;
+            currentForm.BackgroundImage = null;
+            currentForm.BackColor = Color.Black;
+            currentForm.Width = 600;
+            currentForm.Height = 650;
+            Button endTurn = new Button();
+            endTurn.Location = new Point(485, 575);
+            endTurn.Text = "End Turn";
+            endTurn.BackColor = Color.Wheat;
+            endTurn.Click += new EventHandler(endTurnEvent);
+            this.Controls.Add(endTurn);
+
+
+        }
+
+        public void endTurnEvent(object sender, EventArgs e)
+        {
+            System.Console.WriteLine("You have ended your turn!");
+        }
     }
 }
