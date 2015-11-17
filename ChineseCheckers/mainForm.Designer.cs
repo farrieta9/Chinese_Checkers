@@ -64,22 +64,18 @@
             // newGameToolStripMenuItem
             // 
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-<<<<<<< HEAD
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-=======
+
             this.newGameToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
->>>>>>> 387576e035865b0580ea1b5104ca7a345cd80ca8
+
             this.newGameToolStripMenuItem.Text = "New Game";
             this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-<<<<<<< HEAD
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-=======
+
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(157, 26);
->>>>>>> 387576e035865b0580ea1b5104ca7a345cd80ca8
+
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
