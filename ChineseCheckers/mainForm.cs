@@ -25,74 +25,16 @@ namespace ChineseCheckers
             Application.Exit();
         }
 
-        /*private void mainForm_Paint(object sender, PaintEventArgs e)
-        {
-            int width = 15;
-            int height = 15;
-            int xPos = 250;
-            int yPos = 50;
-
-            //Player 1
-            List<SolidBrush> playerOne = new List<SolidBrush>();
-            for (int i = 0; i < 10; i++)
-            {
-                if (i == 0)
-                {
-                    xPos = 250;
-                    yPos = 50;
-                }
-                else if (i == 1)
-                {
-                    xPos = 230; yPos = 80;
-                }
-                else if (i == 2)
-                {
-                    xPos = 270; yPos = 80;
-                }
-                else if (i == 3)
-                {
-                    xPos = 210; yPos = 105;
-                }
-                else if (i == 4)
-                {
-                    xPos = 250; yPos = 105;
-                }
-                else if (i == 5)
-                {
-                    xPos = 290; yPos = 105;
-                }
-                else if (i == 6)
-                {
-                    xPos = 190; yPos = 130;
-                }
-                else if (i == 7)
-                {
-                    xPos = 230; yPos = 130;
-                }
-                else if (i == 8)
-                {
-                    xPos = 270; yPos = 130;
-                }
-                else if (i == 9)
-                {
-                    xPos = 310; yPos = 130;
-                }
-                SolidBrush newPiece = new SolidBrush(Color.Blue);
-                playerOne.Add(newPiece);
-                e.Graphics.FillEllipse(newPiece, xPos, yPos, width, height);
-
-                //Player 2
-            }
-        }*/
-
         private void mainForm_Paint(object sender, PaintEventArgs e)
-        {
-            int xstart = 100;
-            int ystart = 50;
+        {  
+            
             int width = 15;
-            int height = 15;
+            int del = 3;
+            int ystart = 50;
+            int xstart = ystart+4 * width;
 
-            List<SolidBrush> playerOne = new List<SolidBrush>();
+            SolidBrush whiteSB = new SolidBrush(Color.White);
+
             for (int i = 0; i < 17; i++)
             {
                 for (int j = 0; j < 17; j++)
@@ -100,15 +42,38 @@ namespace ChineseCheckers
                     if (Board.isSpace(i, j))
                     {
                         Space sp = thisBoard.getSpace(i, j);
-                        int xPos = xstart + (2 * j - i) * width;
-                        int yPos = ystart + (2 * i) * width;
+                        int xPos = getXFromIndex(i, j, width, xstart, ystart);
+                        int yPos = getYFromIndex(i, j, width, xstart, ystart);
+
+                        e.Graphics.FillEllipse(whiteSB, xPos - del, yPos - del, width + 2 * del, width + 2 * del);
+
                         SolidBrush newPiece = new SolidBrush(getColor(sp));
 
-                        playerOne.Add(newPiece);
-                        e.Graphics.FillEllipse(newPiece, xPos, yPos, width, height);
+                        e.Graphics.FillEllipse(newPiece, xPos, yPos, width, width);
                     }
                 }
             }
+        }
+
+        private int getYFromIndex(int i, int j, int width, int xstart, int ystart)
+        {
+            return ystart + (2 * i) * width;
+        }
+
+        private int getIFromXY(int x, int y, int width, int xstart, int ystart)
+        {
+            return (y - ystart + width) / (2 * width);
+        }
+
+        private int getXFromIndex(int i, int j, int width, int xstart, int ystart)
+        {
+            return xstart + (2 * j - i) * width;
+        }
+
+        private int getJFromXY(int x, int y, int width, int xstart, int ystart)
+        {
+            int i = getIFromXY(x, y, width, xstart, ystart);
+            return (((x - xstart+ width/2) / width) + i) / 2;
         }
 
         private Color getColor(Space sp)
@@ -129,7 +94,7 @@ namespace ChineseCheckers
                 case Space.Player6:
                     return Color.Red;
             }
-            return Color.Brown;
+            return Color.Gray;
         }
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
