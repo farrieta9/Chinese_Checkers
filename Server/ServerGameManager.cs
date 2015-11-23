@@ -18,9 +18,14 @@ namespace Server
 
         }
 
+        /// <summary>
+        /// Checks if the input move is legal. Checks by calling Board.getMoves to see if the move is listed in the returned list.
+        /// </summary>
+        /// <param name="move"></param>
+        /// <returns></returns>
         private bool ValidateMove( CheckersLib.Move move )
         {
-            //Recieve as input a players move
+            //Receive as input a players move
             //Check that the player matches
             if (this.gameBoard.getSpace(move.Start.Item1, move.Start.Item2) != move.Player)
                 return false;
@@ -35,7 +40,7 @@ namespace Server
         }
 
         private void updatePlayerMove()
-        {
+        { 
             //receive move
             //make changes to the board
             //push move to other players
