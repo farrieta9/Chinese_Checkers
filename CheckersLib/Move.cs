@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace CheckersLib
 {
-    class Move
+    public class Move
     {
         public Space Player;
-        public int startX;
-        public int startY;
-        public int endX;
-        public int endY;
+        public Tuple<int, int> Start;
+        public Tuple<int, int> End;
     }
 }
