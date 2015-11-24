@@ -105,8 +105,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "mainForm";
             this.Text = "mainForm";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.mainForm_Paint);
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainForm_MouseClick);
+           // this.Paint += new System.Windows.Forms.PaintEventHandler(this.mainForm_Paint);
+           // this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainForm_MouseClick);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
