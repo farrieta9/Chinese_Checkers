@@ -21,7 +21,6 @@ namespace ChineseCheckers
         public mainForm()
         {
             InitializeComponent();
-            InitializePieceControls();
         }
 
         public void clearAllHighlighting()
@@ -131,12 +130,18 @@ namespace ChineseCheckers
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form currentForm = mainForm.ActiveForm;
+
+            singlePlayerBtn.Hide();
+            joinBtn.Hide();
+            hostBtn.Hide();
+                    
             currentForm.BackgroundImage = null;
             currentForm.BackColor = Color.Black;
             currentForm.Width = 600;
             currentForm.Height = 650;
+            InitializePieceControls();
             Button endTurn = new Button();
-            endTurn.Location = new Point(485, 575);
+            endTurn.Location = new Point(20, 575);
             endTurn.Text = "End Turn";
             endTurn.BackColor = Color.Wheat;
             endTurn.Click += new EventHandler(endTurnEvent);
@@ -159,6 +164,11 @@ namespace ChineseCheckers
                 legalPiece.highlight();
                 System.Console.WriteLine("Space: " + thisBoard.getSpace(p[0], p[1]));
             }
+        }
+
+        private void exitBtn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
