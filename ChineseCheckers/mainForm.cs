@@ -16,12 +16,24 @@ namespace ChineseCheckers
     {
         private Board thisBoard = new Board();
         public event PaintEventHandler paint;
-        public int x = 50; //This is only here for testing purposes.
-        public int y = 50;
+        public pieceObject[] all_pieces = new pieceObject[121];
+        public int count = 0;
         public mainForm()
         {
             InitializeComponent();
             InitializePieceControls();
+        }
+
+        public void clearAllHighlighting()
+        {
+            for (int n = 0; n < count; n++)
+            {
+                all_pieces[n].removeHighlight();
+            }
+        }
+        public void endTurnEvent(object sender, EventArgs e)
+        {
+            System.Console.WriteLine("You have ended your turn!");
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -29,91 +41,20 @@ namespace ChineseCheckers
             Application.Exit();
         }
 
-        public void InitializePieceControls()
+        public pieceObject getPieceObjectByPosition(int i, int j)
         {
-            int width = 15;
-            int del = 3;
-            int ystart = 50;
-            int xstart = ystart + 4 * width;
-            for(int i = 0; i < 17; i++)
+            for (int n = 0; n < count; n++)
             {
-                for(int j = 0; j < 17; j++)
+                int[] p = all_pieces[n].getPosition();
+                if (p[0] == i && p[1] == j)
                 {
-                    if(Board.isSpace(i, j))
-                    {
-                        Space sp = thisBoard.getSpace(i, j);
-                        int xPos = getXFromIndex(i, j, width, xstart, ystart);
-                        int yPos = getYFromIndex(i, j, width, xstart, ystart);
-
-                        pieceObject piece = new pieceObject(getColor(sp));
-                        piece.Click += myButton_Click;
-                        piece.Size = new System.Drawing.Size(20, 20);
-                        piece.Location = new System.Drawing.Point(xPos - del, yPos - del);
-
-                        piece.BackColor = getColor(sp);
-                        this.Controls.Add(piece);
-                    }
+                    System.Console.WriteLine("Found a match!");
+                    System.Console.WriteLine("Received: " + i + ", " + j + "  Matched with: " + p[0] + ", " + p[1]);
+                    return all_pieces[n];
                 }
             }
+            return null;
         }
-
-        void myButton_Click(object sender, EventArgs e)
-        {
-            pieceObject piece = (pieceObject)sender;
-            piece.setPieceColor(Color.White);
-            System.Console.WriteLine("Position: " + piece.Location + "Color: " + piece.BackColor);
-            piece.setPosition(this.x, this.y);
-            this.x += 20;
-            this.y += 20;
-        }
-        
-        //private void mainForm_Paint(object sender, PaintEventArgs e)
-        //{
-        //    /*pieceObject piece = new pieceObject();
-        //    EventHandler myHandler = new EventHandler(myButton_Click);
-        //    piece.Click += myHandler;
-        //    piece.Location = new System.Drawing.Point(20, 20);
-        //    piece.Size = new System.Drawing.Size(20, 20);
-        //    this.Controls.Add(piece);
-        //    */
-
-        //    int width = 15;
-        //    int del = 3;
-        //    int ystart = 50;
-        //    int xstart = ystart+4 * width;
-
-        //    SolidBrush whiteSB = new SolidBrush(Color.White);
-
-        //    for (int i = 0; i < 17; i++)
-        //    {
-        //        for (int j = 0; j < 17; j++)
-        //        {
-        //            if (Board.isSpace(i, j))
-        //            {
-        //                Space sp = thisBoard.getSpace(i, j);
-        //                int xPos = getXFromIndex(i, j, width, xstart, ystart);
-        //                int yPos = getYFromIndex(i, j, width, xstart, ystart);
-
-        //                pieceObject piece = new pieceObject(e, xPos - del, yPos - del, getColor(sp));
-        //                EventHandler myhandler = new EventHandler((a, b)=>myButton_Click(sender, e, piece));
-        //                piece.Click += myhandler;
-        //                piece.Size = new System.Drawing.Size(20, 20);
-        //                piece.Location = new System.Drawing.Point(xPos - del, yPos - del);
-        //                //piece.BackColor = Color.Transparent;
-        //                //piece.ForeColor = Color.Transparent;
-        //                piece.BackColor = getColor(sp);
-
-        //                this.Controls.Add(piece);
-
-        //                //e.Graphics.FillEllipse(whiteSB, xPos - del, yPos - del, width + 2 * del, width + 2 * del);
-
-        //                //SolidBrush newPiece = new SolidBrush(getColor(sp));
-
-        //                //e.Graphics.FillEllipse(newPiece, xPos, yPos, width, width);
-        //            }
-        //        }
-        //    }
-        //}
 
         private int getYFromIndex(int i, int j, int width, int xstart, int ystart)
         {
@@ -133,14 +74,13 @@ namespace ChineseCheckers
         private int getJFromXY(int x, int y, int width, int xstart, int ystart)
         {
             int i = getIFromXY(x, y, width, xstart, ystart);
-            return (((x - xstart+ width/2) / width) + i) / 2;
+            return (((x - xstart + width / 2) / width) + i) / 2;
         }
 
         private Color getColor(Space sp)
         {
             switch (sp)
             {
-
                 case Space.Player1:
                     return Color.Orange;
                 case Space.Player2:
@@ -155,6 +95,37 @@ namespace ChineseCheckers
                     return Color.Red;
             }
             return Color.Gray;
+        }
+
+        public void InitializePieceControls()
+        {
+            int width = 15;
+            int del = 3;
+            int ystart = 50;
+            int xstart = ystart + 4 * width;
+            for(int i = 0; i < 17; i++)
+            {
+                for(int j = 0; j < 17; j++)
+                {
+                    if(Board.isSpace(i, j))
+                    {
+                        Space sp = thisBoard.getSpace(i, j);
+                        int xPos = getXFromIndex(i, j, width, xstart, ystart);
+                        int yPos = getYFromIndex(i, j, width, xstart, ystart);
+
+                        pieceObject piece = new pieceObject(getColor(sp), i, j);
+                        piece.Click += pieceClicked;
+                        piece.Size = new System.Drawing.Size(20, 20);
+                        piece.Location = new System.Drawing.Point(xPos - del, yPos - del);
+
+                        piece.BackColor = getColor(sp);
+                        this.Controls.Add(piece);
+                        all_pieces[count] = piece;
+                        count++;
+                    }
+                }
+            }
+            System.Console.WriteLine("There are " + count + " pieces");
         }
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -172,13 +143,25 @@ namespace ChineseCheckers
             this.Controls.Add(endTurn);
         }
 
-        public void endTurnEvent(object sender, EventArgs e)
+        void pieceClicked(object sender, EventArgs e)
         {
-            System.Console.WriteLine("You have ended your turn!");
+            clearAllHighlighting();
+            pieceObject piece = (pieceObject)sender;
+            //piece.setPieceColor(Color.White);
+            System.Console.WriteLine("Position: " + piece.Location + "Color: " + piece.BackColor);
+            int[] p = piece.getPosition();
+            System.Console.WriteLine("Position Array: " + p[0] + ", " + p[1]);
+            List<Tuple<int, int>> moves = thisBoard.getMoves(p[0], p[1]);
+            foreach(Tuple<int, int> m in moves)
+            {
+                System.Console.WriteLine(m + " is a legal move");
+                pieceObject legalPiece = getPieceObjectByPosition(m.Item1, m.Item2);
+                legalPiece.highlight();
+                System.Console.WriteLine("Space: " + thisBoard.getSpace(p[0], p[1]));
+            }
         }
     }
 }
-
 
 public class pieceObject : UserControl
 {
@@ -186,7 +169,14 @@ public class pieceObject : UserControl
     private int radius = 15;
     private int xPos;
     private int yPos;
-    public pieceObject(Color color) { _color = color; }
+    public int[] position = new int[2];
+    public bool highlighted = false;
+    public pieceObject(Color color, int i, int j)
+    {
+        _color = color;
+        position[0] = i;
+        position[1] = j;
+    }
 
     protected override void OnPaint(PaintEventArgs e)
     {
@@ -195,11 +185,24 @@ public class pieceObject : UserControl
             e.Graphics.FillEllipse(newPiece, 3, 3, radius, radius);
         }
     }
-    public Color getPieceColor() { return _color; }
-    public int getRadius() { return radius; }
-    public int getXPos() { return xPos; }
-    public int getYPos() { return yPos; }
-    
+
+    public int[] getPosition()
+    {
+        return position;
+    }
+
+    public void highlight()
+    {
+        BackColor = ControlPaint.Light(_color, 1);
+        highlighted = true;
+    }
+
+    public void removeHighlight()
+    {
+        BackColor = _color;
+        highlighted = false;
+    }
+
     public void setPieceColor(Color newColor)
     {   _color = newColor;
         BackColor = newColor;
