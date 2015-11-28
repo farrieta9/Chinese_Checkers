@@ -8,22 +8,12 @@ namespace Server
 {
     class ServerGameManager : CheckersLib.GameManager
     {
-        ServerGameManager()
-        {
-            
-        }
-
-        ~ServerGameManager()
-        {
-
-        }
-
         /// <summary>
         /// Checks if the input move is legal. Checks by calling Board.getMoves to see if the move is listed in the returned list.
         /// </summary>
         /// <param name="move"></param>
         /// <returns></returns>
-        private bool ValidateMove( CheckersLib.Move move )
+        public bool ValidateMove( CheckersLib.Move move )
         {
             //Receive as input a players move
             //Check that the player matches

@@ -10,7 +10,10 @@ namespace Server
     {
         static void Main(string[] args)
         {
+            // Is "tcp://*:3000" just local. If so this should be changed but will work for testing.
+            GameServer gameServer = new GameServer("tcp://*:3000");
 
+            gameServer.Run();
         }
     }
 }
