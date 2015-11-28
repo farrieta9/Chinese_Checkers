@@ -8,13 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CheckersLib;
-using Server;
+using System.Threading;
 
 namespace ChineseCheckers
 {
 
     public partial class mainForm : Form
     {
+        Server.GameServer gameServer;
+        Thread serverThread;
         private Board thisBoard = new Board();
         public event PaintEventHandler paint;
         public pieceObject[] all_pieces = new pieceObject[121];
@@ -170,6 +172,30 @@ namespace ChineseCheckers
         private void exitBtn_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void hostBtn_Click(object sender, EventArgs e)
+        {
+            endServer();
+            gameServer = new Server.GameServer("tcp://*:30001");
+            serverThread = new Thread(gameServer.Run);
+            serverThread.Start();
+            while (!serverThread.IsAlive);
+        }
+
+        private void endServer()
+        {
+            if (gameServer != null)
+                gameServer.Shutdown = true;
+            if (serverThread != null && serverThread.IsAlive)
+                serverThread.Join();
+            gameServer = null;
+            serverThread = null;
+        }
+
+        private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            endServer();
         }
     }
 }

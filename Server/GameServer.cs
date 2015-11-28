@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class GameServer
+    public class GameServer
     {
 
         private EasyNetwork.Server server;

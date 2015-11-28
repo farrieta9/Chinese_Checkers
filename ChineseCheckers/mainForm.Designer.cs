@@ -131,6 +131,7 @@
             this.hostBtn.TabIndex = 3;
             this.hostBtn.Text = "Host";
             this.hostBtn.UseVisualStyleBackColor = true;
+            this.hostBtn.Click += new System.EventHandler(this.hostBtn_Click);
             // 
             // exitBtn
             // 
@@ -174,6 +175,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "mainForm";
             this.Text = "mainForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainForm_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
