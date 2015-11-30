@@ -15,12 +15,12 @@ namespace ChineseCheckers
 
     public partial class mainForm : Form
     {
-        Server.GameServer gameServer;
-        Thread serverThread;
-        private Board thisBoard = new Board();
+        ClientGameManager GM;
+        
         public event PaintEventHandler paint;
         public pieceObject[] all_pieces = new pieceObject[121];
         public int count = 0;
+
         public mainForm()
         {
             InitializeComponent();
@@ -33,9 +33,14 @@ namespace ChineseCheckers
                 all_pieces[n].removeHighlight();
             }
         }
+
         public void endTurnEvent(object sender, EventArgs e)
         {
             System.Console.WriteLine("You have ended your turn!");
+
+            //This part is not done
+            Move move = null;
+            GM.SendMoveToServer(move);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -111,7 +116,7 @@ namespace ChineseCheckers
                 {
                     if(Board.isSpace(i, j))
                     {
-                        Space sp = thisBoard.getSpace(i, j);
+                        Space sp = GM.gameBoard.getSpace(i, j);
                         int xPos = getXFromIndex(i, j, width, xstart, ystart);
                         int yPos = getYFromIndex(i, j, width, xstart, ystart);
 
@@ -132,6 +137,8 @@ namespace ChineseCheckers
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            GM = new ClientGameManager();
+
             Form currentForm = mainForm.ActiveForm;
 
             singlePlayerBtn.Hide();
@@ -159,13 +166,13 @@ namespace ChineseCheckers
             System.Console.WriteLine("Position: " + piece.Location + "Color: " + piece.BackColor);
             int[] p = piece.getPosition();
             System.Console.WriteLine("Position Array: " + p[0] + ", " + p[1]);
-            List<Tuple<int, int>> moves = thisBoard.getMoves(p[0], p[1]);
+            List<Tuple<int, int>> moves = GM.gameBoard.getMoves(p[0], p[1]);
             foreach(Tuple<int, int> m in moves)
             {
                 System.Console.WriteLine(m + " is a legal move");
                 pieceObject legalPiece = getPieceObjectByPosition(m.Item1, m.Item2);
                 legalPiece.highlight();
-                System.Console.WriteLine("Space: " + thisBoard.getSpace(p[0], p[1]));
+                System.Console.WriteLine("Space: " + GM.gameBoard.getSpace(p[0], p[1]));
             }
         }
 
@@ -176,27 +183,12 @@ namespace ChineseCheckers
 
         private void hostBtn_Click(object sender, EventArgs e)
         {
-            endServer();
-            gameServer = new Server.GameServer("tcp://*:30001");
-            serverThread = new Thread(gameServer.Run);
-            serverThread.Start();
-            while (!serverThread.IsAlive);
-        }
-
-        private void endServer()
-        {
-            if (gameServer != null)
-                gameServer.Shutdown = true;
-            if (serverThread != null && serverThread.IsAlive)
-                serverThread.Join();
-            gameServer = null;
-            serverThread = null;
-        }
+            GM = new ClientGameManager();
+            GM.HostGame();
+        } 
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            endServer();
-        }
+        { }
     }
 }
 
