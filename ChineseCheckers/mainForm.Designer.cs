@@ -40,6 +40,7 @@
             this.hostBtn = new System.Windows.Forms.Button();
             this.exitBtn = new System.Windows.Forms.Button();
             this.chineseCheckersLabel = new System.Windows.Forms.Label();
+            this.textBox = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -115,17 +116,18 @@
             // 
             this.joinBtn.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.joinBtn.AutoSize = true;
-            this.joinBtn.Location = new System.Drawing.Point(167, 290);
+            this.joinBtn.Location = new System.Drawing.Point(259, 289);
             this.joinBtn.Name = "joinBtn";
             this.joinBtn.Size = new System.Drawing.Size(76, 23);
             this.joinBtn.TabIndex = 2;
             this.joinBtn.Text = "Join";
             this.joinBtn.UseVisualStyleBackColor = true;
+            this.joinBtn.Click += new System.EventHandler(this.joinBtn_Click);
             // 
             // hostBtn
             // 
             this.hostBtn.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.hostBtn.Location = new System.Drawing.Point(321, 290);
+            this.hostBtn.Location = new System.Drawing.Point(374, 290);
             this.hostBtn.Name = "hostBtn";
             this.hostBtn.Size = new System.Drawing.Size(75, 23);
             this.hostBtn.TabIndex = 3;
@@ -159,6 +161,13 @@
             this.chineseCheckersLabel.Text = "Chinese Checkers";
             this.chineseCheckersLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // textBox
+            // 
+            this.textBox.Location = new System.Drawing.Point(142, 292);
+            this.textBox.Name = "textBox";
+            this.textBox.Size = new System.Drawing.Size(100, 20);
+            this.textBox.TabIndex = 6;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -166,6 +175,7 @@
             this.BackgroundImage = global::ChineseCheckers.Properties.Resources.menuart;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(568, 325);
+            this.Controls.Add(this.textBox);
             this.Controls.Add(this.chineseCheckersLabel);
             this.Controls.Add(this.exitBtn);
             this.Controls.Add(this.hostBtn);
@@ -197,6 +207,7 @@
         private System.Windows.Forms.Button hostBtn;
         private System.Windows.Forms.Button exitBtn;
         private System.Windows.Forms.Label chineseCheckersLabel;
+        private System.Windows.Forms.TextBox textBox;
     }
 }
 

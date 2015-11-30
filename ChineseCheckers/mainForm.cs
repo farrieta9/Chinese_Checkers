@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CheckersLib;
 using System.Threading;
+using EasyNetwork;
 
 namespace ChineseCheckers
 {
@@ -137,6 +138,7 @@ namespace ChineseCheckers
             singlePlayerBtn.Hide();
             joinBtn.Hide();
             hostBtn.Hide();
+            textBox.Hide();
                     
             currentForm.BackgroundImage = null;
             currentForm.BackColor = Color.Black;
@@ -182,6 +184,7 @@ namespace ChineseCheckers
             serverThread.Start();
             while (!serverThread.IsAlive);
         }
+   
 
         private void endServer()
         {
@@ -196,6 +199,13 @@ namespace ChineseCheckers
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             endServer();
+        }
+
+        private void joinBtn_Click(object sender, EventArgs e)//gahters input from text entry and connects to server...I think.
+        {
+            Client gameClient = new Client ("tcp://" + textBox.Text + ":30001");
+            gameClient.Start();
+            
         }
     }
 }
