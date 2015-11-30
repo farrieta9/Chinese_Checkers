@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CheckersLib;
 using System.Threading;
+using EasyNetwork;
 
 namespace ChineseCheckers
 {
@@ -144,7 +145,8 @@ namespace ChineseCheckers
             singlePlayerBtn.Hide();
             joinBtn.Hide();
             hostBtn.Hide();
-                    
+            textBox.Hide(); 
+
             currentForm.BackgroundImage = null;
             currentForm.BackColor = Color.Black;
             currentForm.Width = 600;
@@ -185,7 +187,15 @@ namespace ChineseCheckers
         {
             GM = new ClientGameManager();
             GM.HostGame();
-        } 
+        }
+
+        private void joinBtn_Click(object sender, EventArgs e)
+        {
+            GM = new ClientGameManager();
+            string serverAddress = textBox.Text;
+            GM.JoinGame();
+        }
+        
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         { }
