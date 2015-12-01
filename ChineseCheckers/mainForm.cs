@@ -39,11 +39,13 @@ namespace ChineseCheckers
 
         public void endTurnEvent(object sender, EventArgs e)
         {
-            System.Console.WriteLine("You have ended your turn!");
-
             //This part is not done
             Move move = null;
             GM.SendMoveToServer(move);
+
+            System.Console.WriteLine(GM.gameBoard.getWhosTurnItIs() + " has ended their turn.");
+            GM.gameBoard.nextPlayersTurn();
+            System.Windows.Forms.MessageBox.Show("You have ended your turn. Next turn goes to: " + GM.gameBoard.getWhosTurnItIs());
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -150,6 +152,7 @@ namespace ChineseCheckers
                 joinBtn.Hide();
                 hostBtn.Hide();
                 textBox.Hide();
+                chineseCheckersLabel.Hide();
 
                 currentForm.BackgroundImage = null;
                 currentForm.BackColor = Color.Black;
@@ -163,6 +166,7 @@ namespace ChineseCheckers
                 endTurn.Click += new EventHandler(endTurnEvent);
                 this.Controls.Add(endTurn);
                 gameHasStarted = true;
+                System.Windows.Forms.MessageBox.Show("Its: " + GM.gameBoard.getPlayersTurn() + " turn");
             }
             else
             {
@@ -173,6 +177,16 @@ namespace ChineseCheckers
         void pieceClicked(object sender, EventArgs e)
         {
             pieceObject piece = (pieceObject)sender;
+            Space playingPieceTurn = GM.gameBoard.getSpace(piece.getPosition()[0], piece.getPosition()[1]);
+            System.Console.WriteLine("This piece belongs to: " + playingPieceTurn);
+            if (GM.gameBoard.getWhosTurnItIs() != playingPieceTurn && piece.getPieceColor() != Color.Gray)
+            {
+                System.Windows.Forms.MessageBox.Show("Its: " + GM.gameBoard.getPlayersTurn() + " turn." + "Got: " + GM.gameBoard.getPlayersTurn());
+                return;
+                //System.Windows.Forms.MessageBox.Show("Its not your turn");
+            }
+
+
             if (piece.highlighted)
             {
                 System.Console.WriteLine("You have selected a highlighted piece");

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace CheckersLib
 {
     public enum Space {None, Empty, Player1, Player2, Player3, Player4, Player5, Player6 }
+    
     public class Board
     {
         public static Space[,] StartingBoard = new Space[17, 17] {
@@ -28,6 +29,7 @@ namespace CheckersLib
             {    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None, Space.Player4,    Space.None,    Space.None,    Space.None,    Space.None}
         };
 
+        public Space playersTurn = Space.Player1;
         public static Space getStartSpace(int i, int j)
         {
             if(i>=0 && i< 17 && j >= 0 && j < 17)
@@ -144,10 +146,57 @@ namespace CheckersLib
             return l;
 
         }
-
+        
+        public String getPlayersTurn()
+        {
+            switch (playersTurn)
+            {
+                case Space.Player1:
+                    return "orange";
+                case Space.Player2:
+                    return "yellow";
+                case Space.Player3:
+                    return "green";
+                case Space.Player4:
+                    return "blue";
+                case Space.Player5:
+                    return "purple";
+                case Space.Player6:
+                    return "red";
+                default:
+                    return "none";
+            }
+        }
+        
         private bool validLocation(int i, int j)
         {
             return i >= 0 && i < 17 && j >= 0 && j < 17;
+        }
+
+        public Space getWhosTurnItIs()
+        {
+            return playersTurn;
+        }
+
+        public void nextPlayersTurn()
+        {
+            if (playersTurn == Space.Player1)
+                playersTurn = Space.Player2;
+            else if (playersTurn == Space.Player2)
+                playersTurn = Space.Player3;
+            else if (playersTurn == Space.Player3)
+                playersTurn = Space.Player4;
+            else if (playersTurn == Space.Player4)
+                playersTurn = Space.Player5;
+            else if (playersTurn == Space.Player5)
+                playersTurn = Space.Player6;
+            else if (playersTurn == Space.Player6)
+                playersTurn = Space.Player1;
+            else
+            {
+                playersTurn = Space.None;
+                System.Console.WriteLine("Error,  players turn has been set to None/null");
+            }
         }
     }
 }
