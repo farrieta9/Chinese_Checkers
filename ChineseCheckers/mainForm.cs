@@ -21,6 +21,8 @@ namespace ChineseCheckers
         public event PaintEventHandler paint;
         public pieceObject[] all_pieces = new pieceObject[121];
         public int count = 0;
+        public pieceObject hold;
+        protected bool gameHasStarted = false;
 
         public mainForm()
         {
@@ -138,33 +140,56 @@ namespace ChineseCheckers
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GM = new ClientGameManager();
+            if (!gameHasStarted)
+            {
+                GM = new ClientGameManager();
 
-            Form currentForm = mainForm.ActiveForm;
+                Form currentForm = mainForm.ActiveForm;
 
-            singlePlayerBtn.Hide();
-            joinBtn.Hide();
-            hostBtn.Hide();
-            textBox.Hide(); 
+                singlePlayerBtn.Hide();
+                joinBtn.Hide();
+                hostBtn.Hide();
+                textBox.Hide();
 
-            currentForm.BackgroundImage = null;
-            currentForm.BackColor = Color.Black;
-            currentForm.Width = 600;
-            currentForm.Height = 650;
-            InitializePieceControls();
-            Button endTurn = new Button();
-            endTurn.Location = new Point(20, 575);
-            endTurn.Text = "End Turn";
-            endTurn.BackColor = Color.Wheat;
-            endTurn.Click += new EventHandler(endTurnEvent);
-            this.Controls.Add(endTurn);
+                currentForm.BackgroundImage = null;
+                currentForm.BackColor = Color.Black;
+                currentForm.Width = 600;
+                currentForm.Height = 650;
+                InitializePieceControls();
+                Button endTurn = new Button();
+                endTurn.Location = new Point(20, 575);
+                endTurn.Text = "End Turn";
+                endTurn.BackColor = Color.Wheat;
+                endTurn.Click += new EventHandler(endTurnEvent);
+                this.Controls.Add(endTurn);
+                gameHasStarted = true;
+            }
+            else
+            {
+                System.Console.WriteLine("Game has already started.  Exit to begin a new game");
+            }
         }
 
         void pieceClicked(object sender, EventArgs e)
         {
-            clearAllHighlighting();
             pieceObject piece = (pieceObject)sender;
-            //piece.setPieceColor(Color.White);
+            if (piece.highlighted)
+            {
+                System.Console.WriteLine("You have selected a highlighted piece");
+
+                //Swapping the piece color
+                Color temp = piece.getPieceColor();
+                piece.setPieceColor(hold.getPieceColor());
+                hold.setPieceColor(temp);
+
+                //Moving the pieces on the board
+                GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1], GM.gameBoard.getSpace(hold.getPosition()[0], hold.getPosition()[1]));
+                clearAllHighlighting();
+                return;
+            }
+            clearAllHighlighting();
+            hold = piece;
+
             System.Console.WriteLine("Position: " + piece.Location + "Color: " + piece.BackColor);
             int[] p = piece.getPosition();
             System.Console.WriteLine("Position Array: " + p[0] + ", " + p[1]);
@@ -230,6 +255,11 @@ public class pieceObject : UserControl
         return position;
     }
 
+    public Color getPieceColor()
+    {
+        return _color;
+    } 
+
     public void highlight()
     {
         BackColor = ControlPaint.Light(_color, 1);
@@ -243,7 +273,8 @@ public class pieceObject : UserControl
     }
 
     public void setPieceColor(Color newColor)
-    {   _color = newColor;
+    {
+        _color = newColor;
         BackColor = newColor;
     }
 
