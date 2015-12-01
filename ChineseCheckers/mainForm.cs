@@ -198,6 +198,9 @@ namespace ChineseCheckers
 
                 //Moving the pieces on the board
                 GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1], GM.gameBoard.getSpace(hold.getPosition()[0], hold.getPosition()[1]));
+               // GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1], playingPieceTurn);
+
+                GM.gameBoard.setSpace(hold.getPosition()[0], hold.getPosition()[1], Space.Empty);
                 clearAllHighlighting();
                 return;
             }
