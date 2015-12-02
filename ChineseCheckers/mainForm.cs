@@ -7,19 +7,299 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CheckersLib;
+using System.Threading;
+using EasyNetwork;
 
 namespace ChineseCheckers
 {
+
     public partial class mainForm : Form
     {
+        ClientGameManager GM;
+        
+        public event PaintEventHandler paint;
+        public pieceObject[] all_pieces = new pieceObject[121];
+        public int count = 0;
+        public pieceObject hold;
+        protected bool gameHasStarted = false;
+
         public mainForm()
         {
             InitializeComponent();
+        }
+
+        public void clearAllHighlighting()
+        {
+            for (int n = 0; n < count; n++)
+            {
+                all_pieces[n].removeHighlight();
+            }
+        }
+
+        public void endTurnEvent(object sender, EventArgs e)
+        {
+            //This part is not done
+            Move move = null;
+            GM.SendMoveToServer(move);
+
+            System.Console.WriteLine(GM.gameBoard.getWhosTurnItIs() + " has ended their turn.");
+            GM.gameBoard.nextPlayersTurn();
+            System.Windows.Forms.MessageBox.Show("You have ended your turn. Next turn goes to: " + GM.gameBoard.getWhosTurnItIs());
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
+        public pieceObject getPieceObjectByPosition(int i, int j)
+        {
+            for (int n = 0; n < count; n++)
+            {
+                int[] p = all_pieces[n].getPosition();
+                if (p[0] == i && p[1] == j)
+                {
+                    System.Console.WriteLine("Found a match!");
+                    System.Console.WriteLine("Received: " + i + ", " + j + "  Matched with: " + p[0] + ", " + p[1]);
+                    return all_pieces[n];
+                }
+            }
+            return null;
+        }
+
+        private int getYFromIndex(int i, int j, int width, int xstart, int ystart)
+        {
+            return ystart + (2 * i) * width;
+        }
+
+        private int getIFromXY(int x, int y, int width, int xstart, int ystart)
+        {
+            return (y - ystart + width) / (2 * width);
+        }
+
+        private int getXFromIndex(int i, int j, int width, int xstart, int ystart)
+        {
+            return xstart + (2 * j - i) * width;
+        }
+
+        private int getJFromXY(int x, int y, int width, int xstart, int ystart)
+        {
+            int i = getIFromXY(x, y, width, xstart, ystart);
+            return (((x - xstart + width / 2) / width) + i) / 2;
+        }
+
+        private Color getColor(Space sp)
+        {
+            switch (sp)
+            {
+                case Space.Player1:
+                    return Color.Orange;
+                case Space.Player2:
+                    return Color.Yellow;
+                case Space.Player3:
+                    return Color.Green;
+                case Space.Player4:
+                    return Color.Blue;
+                case Space.Player5:
+                    return Color.Purple;
+                case Space.Player6:
+                    return Color.Red;
+            }
+            return Color.Gray;
+        }
+
+        public void InitializePieceControls()
+        {
+            int width = 15;
+            int del = 3;
+            int ystart = 50;
+            int xstart = ystart + 4 * width;
+            for(int i = 0; i < 17; i++)
+            {
+                for(int j = 0; j < 17; j++)
+                {
+                    if(Board.isSpace(i, j))
+                    {
+                        Space sp = GM.gameBoard.getSpace(i, j);
+                        int xPos = getXFromIndex(i, j, width, xstart, ystart);
+                        int yPos = getYFromIndex(i, j, width, xstart, ystart);
+
+                        pieceObject piece = new pieceObject(getColor(sp), i, j);
+                        piece.Click += pieceClicked;
+                        piece.Size = new System.Drawing.Size(20, 20);
+                        piece.Location = new System.Drawing.Point(xPos - del, yPos - del);
+
+                        piece.BackColor = getColor(sp);
+                        this.Controls.Add(piece);
+                        all_pieces[count] = piece;
+                        count++;
+                    }
+                }
+            }
+            System.Console.WriteLine("There are " + count + " pieces");
+        }
+
+        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!gameHasStarted)
+            {
+                GM = new ClientGameManager();
+
+                Form currentForm = mainForm.ActiveForm;
+
+                singlePlayerBtn.Hide();
+                joinBtn.Hide();
+                hostBtn.Hide();
+                textBox.Hide();
+                chineseCheckersLabel.Hide();
+
+                currentForm.BackgroundImage = null;
+                currentForm.BackColor = Color.Black;
+                currentForm.Width = 600;
+                currentForm.Height = 650;
+                InitializePieceControls();
+                Button endTurn = new Button();
+                endTurn.Location = new Point(20, 575);
+                endTurn.Text = "End Turn";
+                endTurn.BackColor = Color.Wheat;
+                endTurn.Click += new EventHandler(endTurnEvent);
+                this.Controls.Add(endTurn);
+                gameHasStarted = true;
+                System.Windows.Forms.MessageBox.Show("Its: " + GM.gameBoard.getPlayersTurn() + " turn");
+            }
+            else
+            {
+                System.Console.WriteLine("Game has already started.  Exit to begin a new game");
+            }
+        }
+
+        void pieceClicked(object sender, EventArgs e)
+        {
+            pieceObject piece = (pieceObject)sender;
+            Space playingPieceTurn = GM.gameBoard.getSpace(piece.getPosition()[0], piece.getPosition()[1]);
+            System.Console.WriteLine("This piece belongs to: " + playingPieceTurn);
+            if (GM.gameBoard.getWhosTurnItIs() != playingPieceTurn && piece.getPieceColor() != Color.Gray)
+            {
+                System.Windows.Forms.MessageBox.Show("Its: " + GM.gameBoard.getPlayersTurn() + " turn." + "Got: " + GM.gameBoard.getPlayersTurn());
+                return;
+                //System.Windows.Forms.MessageBox.Show("Its not your turn");
+            }
+
+
+            if (piece.highlighted)
+            {
+                System.Console.WriteLine("You have selected a highlighted piece");
+
+                //Swapping the piece color
+                Color temp = piece.getPieceColor();
+                piece.setPieceColor(hold.getPieceColor());
+                hold.setPieceColor(temp);
+
+                //Moving the pieces on the board
+                GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1], GM.gameBoard.getSpace(hold.getPosition()[0], hold.getPosition()[1]));
+               // GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1], playingPieceTurn);
+
+                GM.gameBoard.setSpace(hold.getPosition()[0], hold.getPosition()[1], Space.Empty);
+                clearAllHighlighting();
+                return;
+            }
+            clearAllHighlighting();
+            hold = piece;
+
+            System.Console.WriteLine("Position: " + piece.Location + "Color: " + piece.BackColor);
+            int[] p = piece.getPosition();
+            System.Console.WriteLine("Position Array: " + p[0] + ", " + p[1]);
+            List<Tuple<int, int>> moves = GM.gameBoard.getMoves(p[0], p[1]);
+            foreach(Tuple<int, int> m in moves)
+            {
+                System.Console.WriteLine(m + " is a legal move");
+                pieceObject legalPiece = getPieceObjectByPosition(m.Item1, m.Item2);
+                legalPiece.highlight();
+                System.Console.WriteLine("Space: " + GM.gameBoard.getSpace(p[0], p[1]));
+            }
+        }
+
+        private void exitBtn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void hostBtn_Click(object sender, EventArgs e)
+        {
+            GM = new ClientGameManager();
+            GM.HostGame();
+        }
+
+        private void joinBtn_Click(object sender, EventArgs e)
+        {
+            GM = new ClientGameManager();
+            string serverAddress = textBox.Text;
+            GM.JoinGame();
+        }
+        
+
+        private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
+        { }
     }
 }
+
+public class pieceObject : UserControl
+{
+    private Color _color;
+    private int radius = 15;
+    private int xPos;
+    private int yPos;
+    public int[] position = new int[2];
+    public bool highlighted = false;
+    public pieceObject(Color color, int i, int j)
+    {
+        _color = color;
+        position[0] = i;
+        position[1] = j;
+    }
+
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        using(SolidBrush newPiece = new SolidBrush(_color))
+        {
+            e.Graphics.FillEllipse(newPiece, 3, 3, radius, radius);
+        }
+    }
+
+    public int[] getPosition()
+    {
+        return position;
+    }
+
+    public Color getPieceColor()
+    {
+        return _color;
+    } 
+
+    public void highlight()
+    {
+        BackColor = ControlPaint.Light(_color, 1);
+        highlighted = true;
+    }
+
+    public void removeHighlight()
+    {
+        BackColor = _color;
+        highlighted = false;
+    }
+
+    public void setPieceColor(Color newColor)
+    {
+        _color = newColor;
+        BackColor = newColor;
+    }
+
+    public void setPosition(int x, int y)
+    {
+        xPos = x;
+        yPos = y;
+        Location = new Point(x, y);
+    }
+}
+

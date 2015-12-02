@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientGameManager.cs" />
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +93,10 @@
     <ProjectReference Include="..\EasyNetwork\EasyNetwork.csproj">
       <Project>{b334b401-b417-4b74-862e-1fd8709ffa9f}</Project>
       <Name>EasyNetwork</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Server\Server.csproj">
+      <Project>{9eb94f45-a7fe-4ed7-9157-d96fa4e42cdc}</Project>
+      <Name>Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

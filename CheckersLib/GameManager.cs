@@ -6,7 +6,21 @@ using System.Threading.Tasks;
 
 namespace CheckersLib
 {
-    class GameManager
+    abstract public class GameManager
     {
+        public Board gameBoard;
+
+        protected GameManager()
+        {
+            gameBoard = new Board();
+        }
+
+        ~GameManager()
+        {
+
+        }
+
+        
+
     }
 }
