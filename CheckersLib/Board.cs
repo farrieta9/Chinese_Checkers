@@ -14,15 +14,15 @@ namespace CheckersLib
             {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player1, Space.Player1,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None},
             {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player1, Space.Player1, Space.Player1,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None},
             {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player1, Space.Player1, Space.Player1, Space.Player1,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None},
-            { Space.Player2, Space.Player2, Space.Player2, Space.Player2,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player6, Space.Player6, Space.Player6, Space.Player6,    Space.None,    Space.None,    Space.None,    Space.None},
-            {    Space.None, Space.Player2, Space.Player2, Space.Player2,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player6, Space.Player6, Space.Player6,    Space.None,    Space.None,    Space.None,    Space.None},
-            {    Space.None,    Space.None, Space.Player2, Space.Player2,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player6, Space.Player6,    Space.None,    Space.None,    Space.None,    Space.None},
-            {    Space.None,    Space.None,    Space.None, Space.Player2,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player6,    Space.None,    Space.None,    Space.None,    Space.None},
+            { Space.Player6, Space.Player6, Space.Player6, Space.Player6,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player2, Space.Player2, Space.Player2, Space.Player2,    Space.None,    Space.None,    Space.None,    Space.None},
+            {    Space.None, Space.Player6, Space.Player6, Space.Player6,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player2, Space.Player2, Space.Player2,    Space.None,    Space.None,    Space.None,    Space.None},
+            {    Space.None,    Space.None, Space.Player6, Space.Player6,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player2, Space.Player2,    Space.None,    Space.None,    Space.None,    Space.None},
+            {    Space.None,    Space.None,    Space.None, Space.Player6,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player2,    Space.None,    Space.None,    Space.None,    Space.None},
             {    Space.None,    Space.None,    Space.None,    Space.None,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,    Space.None,    Space.None,    Space.None,    Space.None},
-            {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player3,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player5,    Space.None,    Space.None,    Space.None},
-            {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player3, Space.Player3,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player5, Space.Player5,    Space.None,    Space.None},
-            {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player3, Space.Player3, Space.Player3,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player5, Space.Player5, Space.Player5,    Space.None},
-            {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player3, Space.Player3, Space.Player3, Space.Player3,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player5, Space.Player5, Space.Player5, Space.Player5},
+            {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player5,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player3,    Space.None,    Space.None,    Space.None},
+            {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player5, Space.Player5,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player3, Space.Player3,    Space.None,    Space.None},
+            {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player5, Space.Player5, Space.Player5,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player3, Space.Player3, Space.Player3,    Space.None},
+            {    Space.None,    Space.None,    Space.None,    Space.None, Space.Player5, Space.Player5, Space.Player5, Space.Player5,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty,   Space.Empty, Space.Player3, Space.Player3, Space.Player3, Space.Player3},
             {    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None, Space.Player4, Space.Player4, Space.Player4, Space.Player4,    Space.None,    Space.None,    Space.None,    Space.None},
             {    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None, Space.Player4, Space.Player4, Space.Player4,    Space.None,    Space.None,    Space.None,    Space.None},
             {    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None, Space.Player4, Space.Player4,    Space.None,    Space.None,    Space.None,    Space.None},
@@ -152,22 +152,43 @@ namespace CheckersLib
             switch (playersTurn)
             {
                 case Space.Player1:
-                    return "orange";
+                    return "Orange";
                 case Space.Player2:
-                    return "yellow";
+                    return "Yellow";
                 case Space.Player3:
-                    return "green";
+                    return "Green";
                 case Space.Player4:
-                    return "blue";
+                    return "Blue";
                 case Space.Player5:
-                    return "purple";
+                    return "Purple";
                 case Space.Player6:
-                    return "red";
+                    return "Red";
                 default:
                     return "none";
             }
         }
-        
+
+        public String getPreviousPlayersTurn()
+        {
+            switch (playersTurn)
+            {
+                case Space.Player1:
+                    return "Red";
+                case Space.Player2:
+                    return "Orange";
+                case Space.Player3:
+                    return "Yellow";
+                case Space.Player4:
+                    return "Green";
+                case Space.Player5:
+                    return "Blue";
+                case Space.Player6:
+                    return "Purple";
+                default:
+                    return "none";
+            }
+        }
+
         private bool validLocation(int i, int j)
         {
             return i >= 0 && i < 17 && j >= 0 && j < 17;

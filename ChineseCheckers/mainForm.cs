@@ -39,7 +39,7 @@ namespace ChineseCheckers
         {
             System.Console.WriteLine(GM.gameBoard.getWhosTurnItIs() + " has ended their turn.");
             GM.gameBoard.nextPlayersTurn();
-            System.Windows.Forms.MessageBox.Show("You have ended your turn. Next turn goes to: " + GM.gameBoard.getWhosTurnItIs());
+            System.Windows.Forms.MessageBox.Show(GM.gameBoard.getPreviousPlayersTurn() + "'s turn is over. Next turn goes to: " + GM.gameBoard.getPlayersTurn());
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -158,7 +158,7 @@ namespace ChineseCheckers
                 endTurn.Click += new EventHandler(endTurnEvent);
                 this.Controls.Add(endTurn);
                 gameHasStarted = true;
-                System.Windows.Forms.MessageBox.Show("Its: " + GM.gameBoard.getPlayersTurn() + " turn");
+                System.Windows.Forms.MessageBox.Show("It's " + GM.gameBoard.getPlayersTurn() + "'s turn.");
             }
             else
             {
@@ -173,7 +173,7 @@ namespace ChineseCheckers
             System.Console.WriteLine("This piece belongs to: " + playingPieceTurn);
             if (GM.gameBoard.getWhosTurnItIs() != playingPieceTurn && piece.getPieceColor() != Color.Gray)
             {
-                System.Windows.Forms.MessageBox.Show("Its: " + GM.gameBoard.getPlayersTurn() + " turn." + "Got: " + GM.gameBoard.getPlayersTurn());
+                System.Windows.Forms.MessageBox.Show("It's " + GM.gameBoard.getPlayersTurn() + "'s turn.");
                 return;
                 //System.Windows.Forms.MessageBox.Show("Its not your turn");
             }
@@ -181,7 +181,7 @@ namespace ChineseCheckers
 
             if (piece.highlighted)
             {
-                System.Console.WriteLine("You have selected a highlighted piece");
+                System.Console.WriteLine("You have selected a highlighted piece.");
 
                 //Swapping the piece color
                 Color temp = piece.getPieceColor();

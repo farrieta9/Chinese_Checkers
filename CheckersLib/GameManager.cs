@@ -29,8 +29,6 @@ namespace CheckersLib
 
         }
 
-
-
         /// <summary>
         /// Checks if the input move is legal. Checks by calling Board.getMoves to see if the move is listed in the returned list.
         /// </summary>
@@ -63,68 +61,111 @@ namespace CheckersLib
             return move;
         }
 
+        // Checks all 6 players to determine if one of them wins
+        // Returns true if a player has one, false otherwise
         public bool checkWinningMoves(CheckersLib.Space player)
         {
             //Winning areas for each player
             //player 1 [13][9,10,11,12]  [14][10,11,12]  [15][11,12]     [16][12]
-            //player 2 [9][13]           [10][13,14]     [11][13,14,15]  [12][13,14,15,16]
-            //player 3 [4][9,10,11,12]   [5][10,11,12]   [6][11,12]      [7][12]
+            //player 2 [9][4]            [10][4,5]       [11][4,5,6]     [12][4,5,6,7]
+            //player 3 [4][0,1,2,3]      [5][1,2,3]      [6][2,3]        [7][3]
             //player 4 [0][4]            [1][4,5]        [2][4,5,6]      [3][4,5,6,7]
-            //player 5 [4][0,1,2,3]      [5][1,2,3]      [6][2,3]        [7][3]
-            //player 6 [9][4]            [10][4,5]       [11][4,5,6]     [12][4,5,6,7]
+            //player 5 [4][9,10,11,12]   [5][10,11,12]   [6][11,12]      [7][12]
+            //player 6 [9][13]           [10][13,14]     [11][13,14,15]  [12][13,14,15,16]
 
-            //check player1
+            bool winner = false;
+
             if (player == CheckersLib.Space.Player1)
             {
-                //player 1 [13][9,10,11,12]  [14][10,11,12]  [15][11,12]     [16][12]
-                for (int i = 13; i <= 16; i++)
-                {
-                    for (int j = 12; j >= (9 + (i - 13)); j--)
-                    {
-                        if (gameBoard.getSpace(i, 0) != CheckersLib.Space.Player1)
-                        {
-                            return false;
-                        }
-                    }
-                }
-                return true;
+                winner = checkPlayer1(player);
+            }
+            else if (player == CheckersLib.Space.Player2)
+            {
+                winner = checkPlayer2(player);
+            }
+            else if (player == CheckersLib.Space.Player3)
+            {
+                winner = checkPlayer3(player);
+            }
+            else if (player == CheckersLib.Space.Player4)
+            {
+                winner = checkPlayer4(player);
+            }
+            else if (player == CheckersLib.Space.Player5)
+            {
+                winner = checkPlayer5(player);
+            }
+            else if (player == CheckersLib.Space.Player6)
+            {
+                winner = checkPlayer6(player);
             }
 
-            //check player2
-            if (player == CheckersLib.Space.Player2)
+            return winner;
+        } // end method checkWinningMoves
+
+        // Check if Player 1 has all her pieces in the winning spaces
+        public bool checkPlayer1(Space player)
+        {                    
+            //player 1 [13][9,10,11,12]  [14][10,11,12]  [15][11,12]     [16][12]
+            for (int i = 13; i <= 16; i++)
             {
-                //player 2 [9][13]           [10][13,14]     [11][13,14,15]  [12][13,14,15,16]
+                for (int j = 12; j >= (9 + (i - 13)); j--)
+                {
+                    if (gameBoard.getSpace(i, 0) != CheckersLib.Space.Player1)
+                    {
+                        return false;
+                    }
+                }
+            }                           
+
+            return true;
+        }
+
+        // Check if Player 2 has all her pieces in the winning spaces
+        public bool checkPlayer2(Space player)
+        {
+            if (player == CheckersLib.Space.Player6)
+            {
+                //player 2 [9][4]            [10][4,5]       [11][4,5,6]     [12][4,5,6,7]
                 for (int i = 9; i <= 12; i++)
                 {
-                    for (int j = 13; j <= (13 + (i - 9)); j++)
+                    for (int j = 4; j <= (4 + (i - 9)); j++)
                     {
-                        if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player2)
+                        if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player6)
                         {
                             return false;
                         }
                     }
-                }
-                return true;
+                }                
             }
 
-            //check player3
-            if (player == CheckersLib.Space.Player3)
+            return true;
+        }
+
+        // Check if Player 3 has all her pieces in the winning spaces
+        public bool checkPlayer3(Space player)
+        {
+            if (player == CheckersLib.Space.Player5)
             {
-                //player 3 [4][9,10,11,12]   [5][10,11,12]   [6][11,12]      [7][12]
+                //player 3 [4][0,1,2,3]      [5][1,2,3]      [6][2,3]        [7][3]
                 for (int i = 4; i <= 7; i++)
                 {
-                    for (int j = 9; j <= (12 - (i - 4)); j++)
+                    for (int j = 0; j <= (3 - (i - 4)); j++)
                     {
-                        if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player3)
+                        if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player5)
                         {
                             return false;
                         }
                     }
-                }
-                return true;
+                }                
             }
 
-            //check player4
+            return true;
+        }
+
+        // Check if Player 4 has all her pieces in the winning spaces
+        public bool checkPlayer4(Space player)
+        {
             if (player == CheckersLib.Space.Player4)
             {
                 //player 4 [0][4]            [1][4,5]        [2][4,5,6]      [3][4,5,6,7]
@@ -137,47 +178,47 @@ namespace CheckersLib
                             return false;
                         }
                     }
-                }
-                return true;
+                }                
             }
 
-            //check player5
-            if (player == CheckersLib.Space.Player5)
-            {
-                //player 5 [4][0,1,2,3]      [5][1,2,3]      [6][2,3]        [7][3]
-                for (int i = 4; i <= 7; i++)
-                {
-                    for (int j = 0; j <= (3 - (i - 4)); j++)
-                    {
-                        if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player5)
-                        {
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            }
-
-            //check player4
-            if (player == CheckersLib.Space.Player6)
-            {
-                //player 6 [9][4]            [10][4,5]       [11][4,5,6]     [12][4,5,6,7]
-                for (int i = 9; i <= 12; i++)
-                {
-                    for (int j = 4; j <= (4 + (i - 9)); j++)
-                    {
-                        if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player6)
-                        {
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
+        // Check if Player 5 has all her pieces in the winning spaces
+        public bool checkPlayer5(Space player)
+        {
+            //player 5 [4][9,10,11,12]   [5][10,11,12]   [6][11,12]      [7][12]
+            for (int i = 4; i <= 7; i++)
+            {
+                for (int j = 9; j <= (12 - (i - 4)); j++)
+                {
+                    if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player3)
+                    {
+                        return false;
+                    }
+                }
+            }
 
-    }
-}
+            return true;
+        }
+
+        // Check if Player 6 has all her pieces in the winning spaces
+        public bool checkPlayer6(Space player)
+        {
+            //player 6 [9][13]           [10][13,14]     [11][13,14,15]  [12][13,14,15,16]
+            for (int i = 9; i <= 12; i++)
+            {
+                for (int j = 13; j <= (13 + (i - 9)); j++)
+                {
+                    if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player2)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+    } // end Class GameManager
+} // end namespace
