@@ -46,12 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientGameManager.cs" />
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="mainForm.Designer.cs">
       <DependentUpon>mainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pieceObject.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,13 +88,9 @@
     <None Include="Resources\menuart1.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CheckersLib\CheckersLib.csproj">
+    <ProjectReference Include="..\CheckersLib\Classes.csproj">
       <Project>{7e605466-233a-4891-99e1-a367f5f0d3fd}</Project>
-      <Name>CheckersLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasyNetwork\EasyNetwork.csproj">
-      <Project>{b334b401-b417-4b74-862e-1fd8709ffa9f}</Project>
-      <Name>EasyNetwork</Name>
+      <Name>Classes</Name>
     </ProjectReference>
     <ProjectReference Include="..\Server\Server.csproj">
       <Project>{9eb94f45-a7fe-4ed7-9157-d96fa4e42cdc}</Project>
