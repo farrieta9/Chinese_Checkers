@@ -43,14 +43,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="Move.cs" />
-    <Compile Include="NetworkMessages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EasyNetwork\EasyNetwork.csproj">
-      <Project>{b334b401-b417-4b74-862e-1fd8709ffa9f}</Project>
-      <Name>EasyNetwork</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
