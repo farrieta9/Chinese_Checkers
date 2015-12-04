@@ -62,7 +62,7 @@ namespace CheckersLib
             return Space.None;
         }
 
-        public bool setSpace(int i, int j,Space sp)
+        public bool setSpace(int i, int j, Space sp)
         {
             if (validLocation(i, j) && currBoard[i, j] != Space.None && sp != Space.None)
             {
@@ -90,7 +90,7 @@ namespace CheckersLib
         public void setBoard(Space[,] SB)
         {
             currBoard = new Space[17, 17];
-            for(int i =0; i< 17; ++i)
+            for(int i = 0; i < 17; ++i)
             {
                 for (int j = 0; j < 17; ++j)
                 {

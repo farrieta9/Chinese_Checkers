@@ -11,10 +11,9 @@ using CheckersLib;
 
 namespace ChineseCheckers
 {
-
     public partial class mainForm : Form
     {
-        GameManager GM;
+        GameManager GM;        
         
         public event PaintEventHandler paint;
         public pieceObject[] all_pieces = new pieceObject[121];
@@ -38,6 +37,12 @@ namespace ChineseCheckers
         public void endTurnEvent(object sender, EventArgs e)
         {
             System.Console.WriteLine(GM.gameBoard.getWhosTurnItIs() + " has ended their turn.");
+            
+            if (GM.checkWinningMoves())
+            {
+                System.Windows.Forms.MessageBox.Show(GM.gameBoard.getPlayersTurn() + " is the winna winna chicken dinna!");
+                // @todo End game and return to initial menu
+            }
             GM.gameBoard.nextPlayersTurn();
             System.Windows.Forms.MessageBox.Show(GM.gameBoard.getPreviousPlayersTurn() + "'s turn is over. Next turn goes to: " + GM.gameBoard.getPlayersTurn());
         }
@@ -109,7 +114,8 @@ namespace ChineseCheckers
             int del = 3;
             int ystart = 50;
             int xstart = ystart + 4 * width;
-            for(int i = 0; i < 17; i++)
+
+            for (int i = 0; i < 17; i++)
             {
                 for(int j = 0; j < 17; j++)
                 {
@@ -171,6 +177,7 @@ namespace ChineseCheckers
             pieceObject piece = (pieceObject)sender;
             Space playingPieceTurn = GM.gameBoard.getSpace(piece.getPosition()[0], piece.getPosition()[1]);
             System.Console.WriteLine("This piece belongs to: " + playingPieceTurn);
+
             if (GM.gameBoard.getWhosTurnItIs() != playingPieceTurn && piece.getPieceColor() != Color.Gray)
             {
                 System.Windows.Forms.MessageBox.Show("It's " + GM.gameBoard.getPlayersTurn() + "'s turn.");
@@ -203,7 +210,8 @@ namespace ChineseCheckers
             int[] p = piece.getPosition();
             System.Console.WriteLine("Position Array: " + p[0] + ", " + p[1]);
             List<Tuple<int, int>> moves = GM.gameBoard.getMoves(p[0], p[1]);
-            foreach(Tuple<int, int> m in moves)
+
+            foreach (Tuple<int, int> m in moves)
             {
                 System.Console.WriteLine(m + " is a legal move");
                 pieceObject legalPiece = getPieceObjectByPosition(m.Item1, m.Item2);

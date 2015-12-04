@@ -24,6 +24,11 @@ namespace CheckersLib
             playersTurn = Space.None;
         }
 
+        public GameManager(Board GB)
+        {
+            gameBoard = GB;
+        }
+
         ~GameManager()
         {
 
@@ -62,8 +67,8 @@ namespace CheckersLib
         }
 
         // Checks all 6 players to determine if one of them wins
-        // Returns true if a player has one, false otherwise
-        public bool checkWinningMoves(CheckersLib.Space player)
+        // Returns true if a player has won, false otherwise
+        public bool checkWinningMoves()
         {
             //Winning areas for each player
             //player 1 [13][9,10,11,12]  [14][10,11,12]  [15][11,12]     [16][12]
@@ -74,30 +79,31 @@ namespace CheckersLib
             //player 6 [9][13]           [10][13,14]     [11][13,14,15]  [12][13,14,15,16]
 
             bool winner = false;
+            Space currPlayer = gameBoard.getWhosTurnItIs();
 
-            if (player == CheckersLib.Space.Player1)
+            if (currPlayer == Space.Player1)
             {
-                winner = checkPlayer1(player);
+                winner = checkPlayer1(currPlayer);
             }
-            else if (player == CheckersLib.Space.Player2)
+            else if (currPlayer == Space.Player2)
             {
-                winner = checkPlayer2(player);
+                winner = checkPlayer2(currPlayer);
             }
-            else if (player == CheckersLib.Space.Player3)
+            else if (currPlayer == Space.Player3)
             {
-                winner = checkPlayer3(player);
+                winner = checkPlayer3(currPlayer);
             }
-            else if (player == CheckersLib.Space.Player4)
+            else if (currPlayer == Space.Player4)
             {
-                winner = checkPlayer4(player);
+                winner = checkPlayer4(currPlayer);
             }
-            else if (player == CheckersLib.Space.Player5)
+            else if (currPlayer == Space.Player5)
             {
-                winner = checkPlayer5(player);
+                winner = checkPlayer5(currPlayer);
             }
-            else if (player == CheckersLib.Space.Player6)
+            else if (currPlayer == Space.Player6)
             {
-                winner = checkPlayer6(player);
+                winner = checkPlayer6(currPlayer);
             }
 
             return winner;
@@ -111,7 +117,9 @@ namespace CheckersLib
             {
                 for (int j = 12; j >= (9 + (i - 13)); j--)
                 {
-                    if (gameBoard.getSpace(i, 0) != CheckersLib.Space.Player1)
+                    // why was this at gameboard.getSpace(0, i)?! Took so long to test this...
+                    Space checkPlayer = gameBoard.getSpace(i, j);
+                    if (checkPlayer != Space.Player1)
                     {
                         return false;
                     }
@@ -131,7 +139,7 @@ namespace CheckersLib
                 {
                     for (int j = 4; j <= (4 + (i - 9)); j++)
                     {
-                        if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player6)
+                        if (gameBoard.getSpace(i, j) != Space.Player2)
                         {
                             return false;
                         }
@@ -152,7 +160,7 @@ namespace CheckersLib
                 {
                     for (int j = 0; j <= (3 - (i - 4)); j++)
                     {
-                        if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player5)
+                        if (gameBoard.getSpace(i, j) != Space.Player3)
                         {
                             return false;
                         }
@@ -169,11 +177,11 @@ namespace CheckersLib
             if (player == CheckersLib.Space.Player4)
             {
                 //player 4 [0][4]            [1][4,5]        [2][4,5,6]      [3][4,5,6,7]
-                for (int i = 0; i <= 4; i++)
+                for (int i = 0; i <= 3; i++)
                 {
                     for (int j = 4; j <= (4 + i); j++)
                     {
-                        if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player4)
+                        if (gameBoard.getSpace(i, j) != Space.Player4)
                         {
                             return false;
                         }
@@ -190,9 +198,9 @@ namespace CheckersLib
             //player 5 [4][9,10,11,12]   [5][10,11,12]   [6][11,12]      [7][12]
             for (int i = 4; i <= 7; i++)
             {
-                for (int j = 9; j <= (12 - (i - 4)); j++)
+                for (int j = 9 + (i - 4); j <= 12; j++)
                 {
-                    if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player3)
+                    if (gameBoard.getSpace(i, j) != Space.Player5)
                     {
                         return false;
                     }
@@ -210,7 +218,7 @@ namespace CheckersLib
             {
                 for (int j = 13; j <= (13 + (i - 9)); j++)
                 {
-                    if (gameBoard.getSpace(i, j) != CheckersLib.Space.Player2)
+                    if (gameBoard.getSpace(i, j) != Space.Player6)
                     {
                         return false;
                     }
