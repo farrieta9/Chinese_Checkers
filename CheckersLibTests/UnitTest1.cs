@@ -160,5 +160,7 @@ namespace CheckersLib
 
             Assert.IsTrue(GM.checkWinningMoves());
         } // end TestCheckWinningMoves
+
+
     } // end class UnitTest
 } // end namespace CheckersLib

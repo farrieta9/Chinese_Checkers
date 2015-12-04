@@ -66,8 +66,8 @@ namespace CheckersLib
             return move;
         }
 
-        // Checks all 6 players to determine if one of them wins
-        // Returns true if a player has won, false otherwise
+        /// <summary> Checks all 6 players to determine if one of them wins </summary> 
+        /// <returns> true if a player has won, false otherwise </returns>
         public bool checkWinningMoves()
         {
             //Winning areas for each player
@@ -113,9 +113,9 @@ namespace CheckersLib
         public bool checkPlayer1(Space player)
         {                    
             //player 1 [13][9,10,11,12]  [14][10,11,12]  [15][11,12]     [16][12]
-            for (int i = 13; i <= 16; i++)
+            for (int i = 13; i <= 16; ++i)
             {
-                for (int j = 12; j >= (9 + (i - 13)); j--)
+                for (int j = 12; j >= 9 + (i - 13); --j)
                 {
                     // why was this at gameboard.getSpace(0, i)?! Took so long to test this...
                     Space checkPlayer = gameBoard.getSpace(i, j);
@@ -132,20 +132,17 @@ namespace CheckersLib
         // Check if Player 2 has all her pieces in the winning spaces
         public bool checkPlayer2(Space player)
         {
-            if (player == CheckersLib.Space.Player6)
+            //player 2 [9][4]            [10][4,5]       [11][4,5,6]     [12][4,5,6,7]
+            for (int i = 9; i <= 12; ++i)
             {
-                //player 2 [9][4]            [10][4,5]       [11][4,5,6]     [12][4,5,6,7]
-                for (int i = 9; i <= 12; i++)
+                for (int j = 4; j <= 4 + (i - 9); ++j)
                 {
-                    for (int j = 4; j <= (4 + (i - 9)); j++)
+                    if (gameBoard.getSpace(i, j) != Space.Player2)
                     {
-                        if (gameBoard.getSpace(i, j) != Space.Player2)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
-                }                
-            }
+                }
+            }                
 
             return true;
         }
@@ -153,20 +150,17 @@ namespace CheckersLib
         // Check if Player 3 has all her pieces in the winning spaces
         public bool checkPlayer3(Space player)
         {
-            if (player == CheckersLib.Space.Player5)
+            //player 3 [4][0,1,2,3]      [5][1,2,3]      [6][2,3]        [7][3]
+            for (int i = 4; i <= 7; ++i)
             {
-                //player 3 [4][0,1,2,3]      [5][1,2,3]      [6][2,3]        [7][3]
-                for (int i = 4; i <= 7; i++)
+                for (int j = 3; j >= i - 4; --j)
                 {
-                    for (int j = 0; j <= (3 - (i - 4)); j++)
+                    if (gameBoard.getSpace(i, j) != Space.Player3)
                     {
-                        if (gameBoard.getSpace(i, j) != Space.Player3)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
-                }                
-            }
+                }
+            }                
 
             return true;
         }
@@ -174,20 +168,17 @@ namespace CheckersLib
         // Check if Player 4 has all her pieces in the winning spaces
         public bool checkPlayer4(Space player)
         {
-            if (player == CheckersLib.Space.Player4)
+            //player 4 [0][4]            [1][4,5]        [2][4,5,6]      [3][4,5,6,7]
+            for (int i = 0; i <= 3; i++)
             {
-                //player 4 [0][4]            [1][4,5]        [2][4,5,6]      [3][4,5,6,7]
-                for (int i = 0; i <= 3; i++)
+                for (int j = 4; j <= (4 + i); j++)
                 {
-                    for (int j = 4; j <= (4 + i); j++)
+                    if (gameBoard.getSpace(i, j) != Space.Player4)
                     {
-                        if (gameBoard.getSpace(i, j) != Space.Player4)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
-                }                
-            }
+                }
+            }                
 
             return true;
         }

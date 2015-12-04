@@ -44,7 +44,13 @@ namespace ChineseCheckers
                 // @todo End game and return to initial menu
             }
             GM.gameBoard.nextPlayersTurn();
+
             System.Windows.Forms.MessageBox.Show(GM.gameBoard.getPreviousPlayersTurn() + "'s turn is over. Next turn goes to: " + GM.gameBoard.getPlayersTurn());
+        }
+
+        public void resetTurnEvent(object sender, EventArgs e)
+        {
+
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -117,9 +123,9 @@ namespace ChineseCheckers
 
             for (int i = 0; i < 17; i++)
             {
-                for(int j = 0; j < 17; j++)
+                for (int j = 0; j < 17; j++)
                 {
-                    if(Board.isSpace(i, j))
+                    if (Board.isSpace(i, j))
                     {
                         Space sp = GM.gameBoard.getSpace(i, j);
                         int xPos = getXFromIndex(i, j, width, xstart, ystart);
@@ -157,12 +163,21 @@ namespace ChineseCheckers
                 currentForm.Width = 600;
                 currentForm.Height = 650;
                 InitializePieceControls();
+
                 Button endTurn = new Button();
                 endTurn.Location = new Point(20, 575);
                 endTurn.Text = "End Turn";
                 endTurn.BackColor = Color.Wheat;
                 endTurn.Click += new EventHandler(endTurnEvent);
                 this.Controls.Add(endTurn);
+
+                Button resetTurn = new Button();
+                resetTurn.Location = new Point(20, 542);
+                resetTurn.Text = "Reset Turn";
+                resetTurn.BackColor = Color.Wheat;
+                resetTurn.Click += new EventHandler(resetTurnEvent);
+                this.Controls.Add(resetTurn);
+
                 gameHasStarted = true;
                 System.Windows.Forms.MessageBox.Show("It's " + GM.gameBoard.getPlayersTurn() + "'s turn.");
             }
@@ -196,7 +211,8 @@ namespace ChineseCheckers
                 hold.setPieceColor(temp);
 
                 //Moving the pieces on the board
-                GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1], GM.gameBoard.getSpace(hold.getPosition()[0], hold.getPosition()[1]));
+                GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1],
+                    GM.gameBoard.getSpace(hold.getPosition()[0], hold.getPosition()[1]));
                // GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1], playingPieceTurn);
 
                 GM.gameBoard.setSpace(hold.getPosition()[0], hold.getPosition()[1], Space.Empty);

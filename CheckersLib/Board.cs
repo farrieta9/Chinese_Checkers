@@ -30,9 +30,25 @@ namespace CheckersLib
         };
 
         public Space playersTurn = Space.Player1;
+
+        public Board(Board SB)
+        {
+            setBoard(SB.currBoard);
+        }
+
+        public Board(Space[,] SB)
+        {
+            setBoard(SB);
+        }
+
+        public Board()
+        {
+            setBoard(StartingBoard);
+        }
+
         public static Space getStartSpace(int i, int j)
         {
-            if(i>=0 && i< 17 && j >= 0 && j < 17)
+            if(i >= 0 && i < 17 && j >= 0 && j < 17)
                 return StartingBoard[i, j];
             return Space.None;
         }
@@ -72,21 +88,6 @@ namespace CheckersLib
             return false;
         }
 
-        public Board(Board SB)
-        {
-            setBoard(SB.currBoard);
-        }
-
-        public Board(Space[,] SB) 
-        {
-            setBoard(SB);
-        }
-
-        public Board()
-        {
-            setBoard(StartingBoard);
-        }
-
         public void setBoard(Space[,] SB)
         {
             currBoard = new Space[17, 17];
@@ -98,6 +99,12 @@ namespace CheckersLib
                 }
             }
         }
+
+        public Space[,] getBoard()
+        {
+            return currBoard;
+        }
+
         public List<Tuple<int, int>> getMoves(int i, int j)
         {
             List<Tuple<int, int>> l = new List<Tuple<int, int>>();
