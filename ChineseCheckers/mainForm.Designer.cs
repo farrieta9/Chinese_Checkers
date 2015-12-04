@@ -2,6 +2,7 @@
 {
     partial class mainForm
     {
+        
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -90,13 +91,14 @@
             this.tutorialToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Text = "Help";            
             // 
             // tutorialToolStripMenuItem
             // 
             this.tutorialToolStripMenuItem.Name = "tutorialToolStripMenuItem";
             this.tutorialToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.tutorialToolStripMenuItem.Text = "Tutorial";
+            this.tutorialToolStripMenuItem.Click += new System.EventHandler(this.helpTutorial_Click);
             // 
             // singlePlayerBtn
             // 

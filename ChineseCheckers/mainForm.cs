@@ -13,7 +13,8 @@ namespace ChineseCheckers
 {
     public partial class mainForm : Form
     {
-        GameManager GM;        
+        GameManager GM;
+        Tutorial Tutorial = new Tutorial();
         
         public event PaintEventHandler paint;
         public pieceObject[] all_pieces = new pieceObject[121];
@@ -24,6 +25,13 @@ namespace ChineseCheckers
         public mainForm()
         {
             InitializeComponent();
+        }
+
+
+        private void helpTutorial_Click(object sender, EventArgs e)
+        {
+            string instruct = Tutorial.getInstructions();
+            System.Windows.Forms.MessageBox.Show(instruct);
         }
 
         public void clearAllHighlighting()
