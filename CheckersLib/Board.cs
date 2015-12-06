@@ -153,7 +153,32 @@ namespace CheckersLib
             return l;
 
         }
-        
+
+        public List<Move> getPlayerMoves(Space player)
+        {
+            List<Move> moves= new List<Move>();
+            for (int i = 0; i < 17; ++i)
+            {
+                for (int j = 0; j < 17; ++j)
+                {
+                    if(currBoard[i,j] == player)
+                    {
+                        Tuple<int, int> start = new Tuple<int, int>(i, j);
+                        List<Tuple<int, int>>  movelist =getMoves(i, j);
+                        foreach(Tuple<int, int> end in movelist)
+                        {
+                            Move mv = new Move();
+                            mv.End = end;
+                            mv.Start = start;
+                            mv.Player = player;
+                            moves.Add(mv);
+                        }
+                    }
+                }
+            }
+            return moves;
+        }
+
         public String getPlayersTurn()
         {
             switch (playersTurn)

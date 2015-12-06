@@ -58,12 +58,24 @@ namespace CheckersLib
                 return false;
         }
 
+        //scan through all the players pieces calling list legal moves on each one, and recording the move which will move a piece the farthest
+        //when finished with scan, make the move that has been saved
         private CheckersLib.Move MakeNPCMove()
         {
-            //scan through all the players pieces calling list legal moves on each one, and recording the move which will move a piece the farthest
-            //when finished with scan, make the move that has been saved
-            Move move = null;
-            return move;
+            List<Move> moves = gameBoard.getPlayerMoves(player);
+            int bestscore = 0;
+            Move m = moves.First();
+            foreach (Move curr in moves)
+            {
+                int cs = Score(curr);
+                if (cs >= bestscore)
+                {
+                    bestscore = cs;
+                    m = curr;
+                }
+
+            }
+            return m;
         }
 
         /// <summary> Checks all 6 players to determine if one of them wins </summary> 
@@ -219,5 +231,27 @@ namespace CheckersLib
             return true;
         }
 
+        private int Score(Move mv)
+        {
+            int delx = mv.End.Item1 - mv.Start.Item1;
+            int dely = mv.End.Item2 - mv.Start.Item2;
+            switch (mv.Player)
+            {
+                case Space.Player1:
+                    return dely;
+                case Space.Player2:
+                    return dely- delx;
+                case Space.Player3:
+                    return delx;
+                case Space.Player4:
+                    return -dely;
+                case Space.Player5:
+                    return delx- dely;
+                case Space.Player6:
+                    return -delx;
+                default:
+                    return 0;
+            }
+        }
     } // end Class GameManager
 } // end namespace
