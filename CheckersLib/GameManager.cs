@@ -62,7 +62,7 @@ namespace CheckersLib
         //when finished with scan, make the move that has been saved
         private CheckersLib.Move MakeNPCMove()
         {
-            List<Move> moves = gameBoard.getPlayerMoves(player);
+            List<Move> moves = gameBoard.getPlayerMoves(playersTurn);
             int bestscore = 0;
             Move m = moves.First();
             foreach (Move curr in moves)
