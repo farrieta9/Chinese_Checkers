@@ -53,6 +53,7 @@ namespace ChineseCheckers
                 // @todo End game and return to initial menu
             }
             GM.gameBoard.nextPlayersTurn();
+            reset1 = reset2 = null;
 
             System.Windows.Forms.MessageBox.Show(GM.gameBoard.getPreviousPlayersTurn() + "'s turn is over. Next turn goes to: " + GM.gameBoard.getPlayersTurn());
         }
