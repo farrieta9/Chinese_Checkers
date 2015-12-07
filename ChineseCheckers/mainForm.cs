@@ -177,6 +177,7 @@ namespace ChineseCheckers
                     }
                 }
             }
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             System.Console.WriteLine("There are " + count + " pieces");
         }
 
@@ -285,12 +286,6 @@ namespace ChineseCheckers
         {
             Application.Exit();
         }
-
-        private void hostBtn_Click(object sender, EventArgs e)
-        {}
-
-        private void joinBtn_Click(object sender, EventArgs e)
-        {}
         
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         { }
