@@ -21,6 +21,7 @@ namespace ChineseCheckers
         public int count = 0;
         public pieceObject hold;
         protected bool gameHasStarted = false;
+        public pieceObject reset1, reset2; // reset1 hold the old position, reset2 has the new position
 
         public mainForm()
         {
@@ -56,9 +57,30 @@ namespace ChineseCheckers
             System.Windows.Forms.MessageBox.Show(GM.gameBoard.getPreviousPlayersTurn() + "'s turn is over. Next turn goes to: " + GM.gameBoard.getPlayersTurn());
         }
 
-        public void resetTurnEvent(object sender, EventArgs e)
+        public void resetTurnEvent(object sender, EventArgs e) //  Swapping the new position with the old position.
         {
+            if(reset1 != null && reset2 != null)
+            {
+                //Swapping the piece color
+                Color temp = reset2.getPieceColor();
+                reset2.setPieceColor(reset1.getPieceColor());
+                reset1.setPieceColor(temp);
 
+                //Moving the pieces on the board
+                GM.gameBoard.setSpace(reset2.getPosition()[0], reset2.getPosition()[1],
+                    GM.gameBoard.getSpace(reset1.getPosition()[0], reset1.getPosition()[1]));
+                // GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1], playingPieceTurn);
+
+                GM.gameBoard.setSpace(reset1.getPosition()[0], reset1.getPosition()[1], Space.Empty);
+                reset1 = null;
+                reset2 = null;
+                clearAllHighlighting();
+                return;
+            }
+            else
+            {
+                System.Console.WriteLine("Nothing to undo");
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -214,16 +236,21 @@ namespace ChineseCheckers
                 System.Console.WriteLine("You have selected a highlighted piece.");
 
                 //Swapping the piece color
+
                 Color temp = piece.getPieceColor();
                 piece.setPieceColor(hold.getPieceColor());
                 hold.setPieceColor(temp);
 
                 //Moving the pieces on the board
                 GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1],
-                    GM.gameBoard.getSpace(hold.getPosition()[0], hold.getPosition()[1]));
+                GM.gameBoard.getSpace(hold.getPosition()[0], hold.getPosition()[1]));
                // GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1], playingPieceTurn);
 
                 GM.gameBoard.setSpace(hold.getPosition()[0], hold.getPosition()[1], Space.Empty);
+
+                reset1 = piece;
+                reset2 = hold;
+
                 clearAllHighlighting();
                 return;
             }
