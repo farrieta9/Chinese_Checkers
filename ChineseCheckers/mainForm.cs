@@ -177,7 +177,7 @@ namespace ChineseCheckers
                     }
                 }
             }
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle; // Make the gui non resizable.
             System.Console.WriteLine("There are " + count + " pieces");
         }
 
@@ -286,7 +286,12 @@ namespace ChineseCheckers
         {
             Application.Exit();
         }
-        
+
+        private void multiplayerBtn_Click(object sender, EventArgs e)
+        {
+            newGameToolStripMenuItem_Click(sender, e);
+        }
+
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         { }
     }
