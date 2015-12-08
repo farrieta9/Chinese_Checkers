@@ -91,7 +91,7 @@
             this.tutorialToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";            
+            this.helpToolStripMenuItem.Text = "Help";
             // 
             // tutorialToolStripMenuItem
             // 
@@ -146,6 +146,7 @@
             this.multiplayerBtn.TabIndex = 6;
             this.multiplayerBtn.Text = "Multi-Player";
             this.multiplayerBtn.UseVisualStyleBackColor = true;
+            this.multiplayerBtn.Click += new System.EventHandler(this.multiplayerBtn_Click);
             // 
             // mainForm
             // 

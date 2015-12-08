@@ -22,6 +22,7 @@ namespace ChineseCheckers
         public pieceObject hold;
         protected bool gameHasStarted = false;
         public pieceObject reset1, reset2; // reset1 hold the old position, reset2 has the new position
+        public bool made_move = false;
 
         public mainForm()
         {
@@ -53,6 +54,8 @@ namespace ChineseCheckers
                 // @todo End game and return to initial menu
             }
             GM.gameBoard.nextPlayersTurn();
+            reset1 = reset2 = null;
+            made_move = false;
 
             System.Windows.Forms.MessageBox.Show(GM.gameBoard.getPreviousPlayersTurn() + "'s turn is over. Next turn goes to: " + GM.gameBoard.getPlayersTurn());
         }
@@ -75,6 +78,7 @@ namespace ChineseCheckers
                 reset1 = null;
                 reset2 = null;
                 clearAllHighlighting();
+                made_move = false;
                 return;
             }
             else
@@ -173,6 +177,7 @@ namespace ChineseCheckers
                     }
                 }
             }
+            this.FormBorderStyle = FormBorderStyle.FixedSingle; // Make the gui non resizable.
             System.Console.WriteLine("There are " + count + " pieces");
         }
 
@@ -219,6 +224,11 @@ namespace ChineseCheckers
 
         void pieceClicked(object sender, EventArgs e)
         {
+            if (made_move)
+            {
+                System.Console.WriteLine("You have already made a move");
+                return;
+            }
             pieceObject piece = (pieceObject)sender;
             Space playingPieceTurn = GM.gameBoard.getSpace(piece.getPosition()[0], piece.getPosition()[1]);
             System.Console.WriteLine("This piece belongs to: " + playingPieceTurn);
@@ -252,6 +262,7 @@ namespace ChineseCheckers
                 reset2 = hold;
 
                 clearAllHighlighting();
+                made_move = true;
                 return;
             }
             clearAllHighlighting();
@@ -276,12 +287,11 @@ namespace ChineseCheckers
             Application.Exit();
         }
 
-        private void hostBtn_Click(object sender, EventArgs e)
-        {}
+        private void multiplayerBtn_Click(object sender, EventArgs e)
+        {
+            newGameToolStripMenuItem_Click(sender, e);
+        }
 
-        private void joinBtn_Click(object sender, EventArgs e)
-        {}
-        
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         { }
     }
