@@ -7,17 +7,16 @@ namespace CheckersLib
     public class UnitTest1
     {
         [TestMethod]
-        public void TestCheckWinningMoves()
+        public void CheckWinPlayer1()
         {
-
             Board GameBoard = new Board();
             GameManager GM = new GameManager(GameBoard);
 
             // check Player1 win
             //player 1 [13][9,10,11,12]  [14][10,11,12]  [15][11,12]     [16][12]
             Space player1 = Space.Player1;
-            
-            GameBoard.setSpace(13, 9, player1);            
+
+            GameBoard.setSpace(13, 9, player1);
             GameBoard.setSpace(13, 10, player1);
             GameBoard.setSpace(13, 11, player1);
             GameBoard.setSpace(13, 12, player1);
@@ -35,6 +34,13 @@ namespace CheckersLib
 
             Assert.IsTrue(GM.checkWinningMoves());
 
+        }
+
+        [TestMethod]
+        public void CheckWinPlayer2()
+        {
+            Board GameBoard = new Board();
+            GameManager GM = new GameManager(GameBoard);
 
             // Check Player2 win
             //player 2 [9][4]            [10][4,5]       [11][4,5,6]     [12][4,5,6,7]
@@ -42,7 +48,7 @@ namespace CheckersLib
             GameBoard.nextPlayersTurn();
             Assert.AreEqual(player2, GameBoard.getWhosTurnItIs());
 
-            GameBoard.setSpace(12, 7, player2);            
+            GameBoard.setSpace(12, 7, player2);
             GameBoard.setSpace(12, 6, player2);
             GameBoard.setSpace(12, 5, player2);
             GameBoard.setSpace(12, 4, player2);
@@ -60,10 +66,18 @@ namespace CheckersLib
 
             Assert.IsTrue(GM.checkWinningMoves());
 
+        }
+
+        [TestMethod]
+        public void CheckWinPlayer3()
+        {
+            Board GameBoard = new Board();
+            GameManager GM = new GameManager(GameBoard);
 
             // Check Player3 win
             //player 3 [4][0,1,2,3]      [5][1,2,3]      [6][2,3]        [7][3]
             Space player3 = Space.Player3;
+            GameBoard.nextPlayersTurn();
             GameBoard.nextPlayersTurn();
             Assert.AreEqual(player3, GameBoard.getWhosTurnItIs());
 
@@ -85,10 +99,19 @@ namespace CheckersLib
 
             Assert.IsTrue(GM.checkWinningMoves());
 
+        }
+
+        [TestMethod]
+        public void CheckWinPlayer4()
+        {
+            Board GameBoard = new Board();
+            GameManager GM = new GameManager(GameBoard);
 
             // Check Player4 Win
             //player 4 [0][4]            [1][4,5]        [2][4,5,6]      [3][4,5,6,7]
             Space player4 = Space.Player4;
+            GameBoard.nextPlayersTurn();
+            GameBoard.nextPlayersTurn();
             GameBoard.nextPlayersTurn();
             Assert.AreEqual(player4, GameBoard.getWhosTurnItIs());
 
@@ -110,10 +133,20 @@ namespace CheckersLib
 
             Assert.IsTrue(GM.checkWinningMoves());
 
+        }
+
+        [TestMethod]
+        public void CheckWinPlayer5()
+        {
+            Board GameBoard = new Board();
+            GameManager GM = new GameManager(GameBoard);
 
             // Check Player5 win
             //player 5 [4][9,10,11,12]   [5][10,11,12]   [6][11,12]      [7][12]
             Space player5 = Space.Player5;
+            GameBoard.nextPlayersTurn();
+            GameBoard.nextPlayersTurn();
+            GameBoard.nextPlayersTurn();
             GameBoard.nextPlayersTurn();
             Assert.AreEqual(player5, GameBoard.getWhosTurnItIs());
 
@@ -135,10 +168,21 @@ namespace CheckersLib
 
             Assert.IsTrue(GM.checkWinningMoves());
 
+        }
+
+        [TestMethod]
+        public void CheckWinPlayer6()
+        {
+            Board GameBoard = new Board();
+            GameManager GM = new GameManager(GameBoard);
 
             // Check Player6 win
             //player 6 [9][13]           [10][13,14]     [11][13,14,15]  [12][13,14,15,16]
             Space player6 = Space.Player6;
+            GameBoard.nextPlayersTurn();
+            GameBoard.nextPlayersTurn();
+            GameBoard.nextPlayersTurn();
+            GameBoard.nextPlayersTurn();
             GameBoard.nextPlayersTurn();
             Assert.AreEqual(player6, GameBoard.getWhosTurnItIs());
 
@@ -159,7 +203,7 @@ namespace CheckersLib
             GameBoard.setSpace(9, 13, player6);
 
             Assert.IsTrue(GM.checkWinningMoves());
-        } // end TestCheckWinningMoves
+        }
 
 
     } // end class UnitTest
