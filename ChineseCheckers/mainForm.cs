@@ -29,7 +29,6 @@ namespace ChineseCheckers
             InitializeComponent();
         }
 
-
         private void helpTutorial_Click(object sender, EventArgs e)
         {
             string instruct = Tutorial.getInstructions();
@@ -71,7 +70,7 @@ namespace ChineseCheckers
 
                 //Moving the pieces on the board
                 GM.gameBoard.setSpace(reset2.getPosition()[0], reset2.getPosition()[1],
-                    GM.gameBoard.getSpace(reset1.getPosition()[0], reset1.getPosition()[1]));
+                GM.gameBoard.getSpace(reset1.getPosition()[0], reset1.getPosition()[1]));
                 // GM.gameBoard.setSpace(piece.getPosition()[0], piece.getPosition()[1], playingPieceTurn);
 
                 GM.gameBoard.setSpace(reset1.getPosition()[0], reset1.getPosition()[1], Space.Empty);
@@ -128,7 +127,7 @@ namespace ChineseCheckers
             return (((x - xstart + width / 2) / width) + i) / 2;
         }
 
-        private Color getColor(Space sp)
+        public Color getColor(Space sp)
         {
             switch (sp)
             {
@@ -161,16 +160,27 @@ namespace ChineseCheckers
                 {
                     if (Board.isSpace(i, j))
                     {
+                        Graphics pieceGraphics;
+                        pieceGraphics = this.CreateGraphics();
                         Space sp = GM.gameBoard.getSpace(i, j);
                         int xPos = getXFromIndex(i, j, width, xstart, ystart);
                         int yPos = getYFromIndex(i, j, width, xstart, ystart);
 
-                        pieceObject piece = new pieceObject(getColor(sp), i, j);
+                        pieceObject piece = new pieceObject(pieceGraphics, getColor(sp), i, j);
                         piece.Click += pieceClicked;
-                        piece.Size = new System.Drawing.Size(20, 20);
-                        piece.Location = new System.Drawing.Point(xPos - del, yPos - del);
+                        //piece.Size = new Size(20, 20);                        
+                        //piece.Location = new Point(xPos - del, yPos - del);
+                        //piece.BackColor = getColor(sp);                     
 
-                        piece.BackColor = getColor(sp);
+                        Size size = new Size(20, 20);
+                        Point location = new Point(xPos - del, yPos - del);
+                        Rectangle rect = new Rectangle(location, size);
+                        SolidBrush brush = new SolidBrush(getColor(sp));
+                        piece.setPieceGraphics(brush, rect);
+
+                        brush.Dispose();                     
+                        pieceGraphics.Dispose();
+
                         this.Controls.Add(piece);
                         all_pieces[count] = piece;
                         count++;
@@ -246,7 +256,6 @@ namespace ChineseCheckers
                 System.Console.WriteLine("You have selected a highlighted piece.");
 
                 //Swapping the piece color
-
                 Color temp = piece.getPieceColor();
                 piece.setPieceColor(hold.getPieceColor());
                 hold.setPieceColor(temp);

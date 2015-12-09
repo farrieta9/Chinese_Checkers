@@ -13,25 +13,32 @@ namespace ChineseCheckers
 {
     public class pieceObject : UserControl
     {
+        private Graphics pieceGraphics;
+        private SolidBrush brush;
+        private Rectangle rect;
         private Color _color;
-        private int radius = 15;
         private int xPos;
         private int yPos;
         public int[] position = new int[2];
         public bool highlighted = false;
-        public pieceObject(Color color, int i, int j)
-        {
-            _color = color;
+
+        public pieceObject(Graphics pGraphics, Color color, int i, int j)
+        {            
+            brush = new SolidBrush(color);
+            pieceGraphics = pGraphics;
+            //_color = color;
             position[0] = i;
             position[1] = j;
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        public Graphics getPieceGraphics()
         {
-            using (SolidBrush newPiece = new SolidBrush(_color))
-            {
-                e.Graphics.FillEllipse(newPiece, 3, 3, radius, radius);
-            }
+            return pieceGraphics;
+        }
+
+        public void setPieceGraphics(SolidBrush brush, Rectangle rect)
+        {
+            pieceGraphics.FillEllipse(brush, rect);
         }
 
         public int[] getPosition()
@@ -39,9 +46,25 @@ namespace ChineseCheckers
             return position;
         }
 
+        public void setPosition(int x, int y)
+        {
+            xPos = x;
+            yPos = y;
+            Location = new Point(x, y);
+        }
+
         public Color getPieceColor()
         {
-            return _color;
+            return brush.Color;
+            //return _color;
+        }
+
+        public void setPieceColor(Color newColor)
+        {
+            brush = new SolidBrush(newColor);
+            pieceGraphics.FillEllipse(brush, rect);
+            //_color = newColor;
+            BackColor = newColor;            
         }
 
         public void highlight()
@@ -52,21 +75,13 @@ namespace ChineseCheckers
 
         public void removeHighlight()
         {
-            BackColor = _color;
+            BackColor = brush.Color;
+            //BackColor = _color;
             highlighted = false;
         }
 
-        public void setPieceColor(Color newColor)
-        {
-            _color = newColor;
-            BackColor = newColor;
-        }
+        
 
-        public void setPosition(int x, int y)
-        {
-            xPos = x;
-            yPos = y;
-            Location = new Point(x, y);
-        }
+        
     }
 }
