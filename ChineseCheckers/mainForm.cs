@@ -29,7 +29,6 @@ namespace ChineseCheckers
             InitializeComponent();
         }
 
-
         private void helpTutorial_Click(object sender, EventArgs e)
         {
             string instruct = Tutorial.getInstructions();
@@ -46,18 +45,51 @@ namespace ChineseCheckers
 
         public void endTurnEvent(object sender, EventArgs e)
         {
-            System.Console.WriteLine(GM.gameBoard.getWhosTurnItIs() + " has ended their turn.");
+            System.Console.WriteLine(GM.playersTurn + " has ended their turn.");
             
+            //check if a player has won
             if (GM.checkWinningMoves())
             {
-                System.Windows.Forms.MessageBox.Show(GM.gameBoard.getPlayersTurn() + " is the winna winna chicken dinna!");
+                System.Windows.Forms.MessageBox.Show(GM.playersTurn + " is the winna winna chicken dinna!");
                 // @todo End game and return to initial menu
             }
-            GM.gameBoard.nextPlayersTurn();
+
+            //if game is not over
+            GM.nextPlayersTurn();
             reset1 = reset2 = null;
             made_move = false;
 
-            System.Windows.Forms.MessageBox.Show(GM.gameBoard.getPreviousPlayersTurn() + "'s turn is over. Next turn goes to: " + GM.gameBoard.getPlayersTurn());
+            //while (GM.playerIsHuman[(int)GM.playersTurn - 2] == false)
+            //{
+            //    Move move = GM.MakeNPCMove();
+
+            //    GM.gameBoard.setSpace(move.End.Item1, move.End.Item2, move.Player);
+            //    GM.gameBoard.setSpace(move.Start.Item1, move.Start.Item2, Space.Empty);
+            //    getPieceObjectByPosition(move.End.Item1, move.End.Item2).setPieceColor(getColor(move.Player));
+            //    getPieceObjectByPosition(move.Start.Item1, move.Start.Item2).setPieceColor(getColor(Space.Empty));
+            //    GM.nextPlayersTurn();
+            //    Form currentForm = mainForm.ActiveForm;
+            //    currentForm.Refresh();
+            //    //System.Threading.Thread.Sleep(500);
+            //}
+
+            //if the new player is an AI, take the turn
+            if (GM.playerIsHuman[(int)GM.playersTurn - 2] == false)
+            {
+                Move move = GM.MakeNPCMove();
+
+                GM.gameBoard.setSpace(move.End.Item1, move.End.Item2, move.Player);
+                GM.gameBoard.setSpace(move.Start.Item1, move.Start.Item2, Space.Empty);
+                getPieceObjectByPosition(move.End.Item1, move.End.Item2).setPieceColor(getColor(move.Player));
+                getPieceObjectByPosition(move.Start.Item1, move.Start.Item2).setPieceColor(getColor(Space.Empty));
+                mainForm.ActiveForm.Refresh();
+                System.Threading.Thread.Sleep(500);
+                endTurnEvent(this, null);
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show(GM.getPreviousPlayersTurn() + "'s turn is over. Next turn goes to: " + GM.getPlayersTurn());
+            }
         }
 
         public void resetTurnEvent(object sender, EventArgs e) //  Swapping the new position with the old position.
@@ -179,48 +211,10 @@ namespace ChineseCheckers
             }
             this.FormBorderStyle = FormBorderStyle.FixedSingle; // Make the gui non resizable.
             System.Console.WriteLine("There are " + count + " pieces");
+            //count = 0;
         }
 
-        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!gameHasStarted)
-            {
-                GM = new GameManager();
-
-                Form currentForm = mainForm.ActiveForm;
-
-                singlePlayerBtn.Hide();
-                multiplayerBtn.Hide();
-                chineseCheckersLabel.Hide();
-
-                currentForm.BackgroundImage = null;
-                currentForm.BackColor = Color.Black;
-                currentForm.Width = 600;
-                currentForm.Height = 650;
-                InitializePieceControls();
-
-                Button endTurn = new Button();
-                endTurn.Location = new Point(20, 575);
-                endTurn.Text = "End Turn";
-                endTurn.BackColor = Color.Wheat;
-                endTurn.Click += new EventHandler(endTurnEvent);
-                this.Controls.Add(endTurn);
-
-                Button resetTurn = new Button();
-                resetTurn.Location = new Point(20, 542);
-                resetTurn.Text = "Reset Turn";
-                resetTurn.BackColor = Color.Wheat;
-                resetTurn.Click += new EventHandler(resetTurnEvent);
-                this.Controls.Add(resetTurn);
-
-                gameHasStarted = true;
-                System.Windows.Forms.MessageBox.Show("It's " + GM.gameBoard.getPlayersTurn() + "'s turn.");
-            }
-            else
-            {
-                System.Console.WriteLine("Game has already started.  Exit to begin a new game");
-            }
-        }
+        
 
         void pieceClicked(object sender, EventArgs e)
         {
@@ -233,9 +227,9 @@ namespace ChineseCheckers
             Space playingPieceTurn = GM.gameBoard.getSpace(piece.getPosition()[0], piece.getPosition()[1]);
             System.Console.WriteLine("This piece belongs to: " + playingPieceTurn);
 
-            if (GM.gameBoard.getWhosTurnItIs() != playingPieceTurn && piece.getPieceColor() != Color.Gray)
+            if (GM.playersTurn != playingPieceTurn && piece.getPieceColor() != Color.Gray)
             {
-                System.Windows.Forms.MessageBox.Show("It's " + GM.gameBoard.getPlayersTurn() + "'s turn.");
+                System.Windows.Forms.MessageBox.Show("It's " + GM.getPlayersTurn() + "'s turn.");
                 return;
                 //System.Windows.Forms.MessageBox.Show("Its not your turn");
             }
@@ -280,20 +274,97 @@ namespace ChineseCheckers
                 legalPiece.highlight();
                 System.Console.WriteLine("Space: " + GM.gameBoard.getSpace(p[0], p[1]));
             }
+        }     
+
+        private void startGameBtn_Click(object sender, EventArgs e)
+        {
+            if (numHumansBox.SelectedIndex < 0)
+            {
+                System.Windows.Forms.MessageBox.Show("Please select the number of players.");
+                return;
+            }
+
+            GM = new GameManager();
+            GM.StartGame(numHumansBox.SelectedIndex);
+
+            clearForm();
+            InitializePieceControls();
+            createGameButtons();
+            gameHasStarted = true;
+            displayGameStartMessage();
+
+            //if the first player is an AI, take the first turn
+            if (GM.playerIsHuman[(int)GM.playersTurn - 2] == false)
+            {
+                Move move = GM.MakeNPCMove();
+
+                GM.gameBoard.setSpace(move.End.Item1, move.End.Item2, move.Player);
+                GM.gameBoard.setSpace(move.Start.Item1, move.Start.Item2, Space.Empty);
+                getPieceObjectByPosition(move.End.Item1, move.End.Item2).setPieceColor(getColor(move.Player));
+                getPieceObjectByPosition(move.Start.Item1, move.Start.Item2).setPieceColor(getColor(Space.Empty));
+                mainForm.ActiveForm.Refresh();
+                System.Threading.Thread.Sleep(500);
+                endTurnEvent(this, null);
+            }
         }
 
-        private void exitBtn_Click(object sender, EventArgs e)
+        private void numHumansBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Application.Exit();
-        }
-
-        private void multiplayerBtn_Click(object sender, EventArgs e)
-        {
-            newGameToolStripMenuItem_Click(sender, e);
+            numNPCbox.Text = (6 - numHumansBox.SelectedIndex).ToString();
         }
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         { }
+
+        private void clearForm()
+        {
+            Form currentForm = mainForm.ActiveForm;
+
+            chineseCheckersLabel.Hide();
+            numHumansBox.Hide();
+            numNPCbox.Hide();
+            startGameBtn.Hide();
+            label1.Hide();
+            label2.Hide();
+
+            currentForm.BackgroundImage = null;
+            currentForm.BackColor = Color.Black;
+            currentForm.Width = 600;
+            currentForm.Height = 650;
+        }
+
+        private void createGameButtons()
+        {
+            Button endTurn = new Button();
+            endTurn.Location = new Point(500, 575);
+            endTurn.Text = "End Turn";
+            endTurn.BackColor = Color.Wheat;
+            endTurn.Click += new EventHandler(endTurnEvent);
+            this.Controls.Add(endTurn);
+
+            Button resetTurn = new Button();
+            resetTurn.Location = new Point(500, 542);
+            resetTurn.Text = "Reset Turn";
+            resetTurn.BackColor = Color.Wheat;
+            resetTurn.Click += new EventHandler(resetTurnEvent);
+            this.Controls.Add(resetTurn);
+        }
+
+        private void displayGameStartMessage()
+        {
+            StringBuilder message = new StringBuilder("The human players are: \n");
+            for (int i = 0; i < 6; i++)
+            {
+                if (GM.playerIsHuman[i] == true)
+                {
+                    message.Append(getColor((Space)(i + 2)).ToString());
+                    message.Append("\n");
+                }
+            }
+            message.Append(getColor(GM.playersTurn).ToString());
+            message.Append(" will start.");
+            System.Windows.Forms.MessageBox.Show(message.ToString());
+        }
     }
 }
 

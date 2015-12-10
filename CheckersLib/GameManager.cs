@@ -9,10 +9,7 @@ namespace CheckersLib
     public class GameManager
     {
         public Board gameBoard;
-
-        /// <summary>
-        /// Stores the player whos turn it is currently.
-        /// </summary>
+        public bool[] playerIsHuman;
         public Space playersTurn;
 
         /// <summary>
@@ -21,7 +18,7 @@ namespace CheckersLib
         public GameManager()
         {
             gameBoard = new Board();
-            playersTurn = Space.None;
+            playerIsHuman = new bool[6] { false, false, false, false, false, false };
         }
 
         public GameManager(Board GB)
@@ -60,7 +57,7 @@ namespace CheckersLib
 
         //scan through all the players pieces calling list legal moves on each one, and recording the move which will move a piece the farthest
         //when finished with scan, make the move that has been saved
-        private CheckersLib.Move MakeNPCMove()
+        public CheckersLib.Move MakeNPCMove()
         {
             List<Move> moves = gameBoard.getPlayerMoves(playersTurn);
             int bestscore = 0;
@@ -91,31 +88,30 @@ namespace CheckersLib
             //player 6 [9][13]           [10][13,14]     [11][13,14,15]  [12][13,14,15,16]
 
             bool winner = false;
-            Space currPlayer = gameBoard.getWhosTurnItIs();
-
-            if (currPlayer == Space.Player1)
+            
+            if (playersTurn == Space.Player1)
             {
-                winner = checkPlayer1(currPlayer);
+                winner = checkPlayer1(playersTurn);
             }
-            else if (currPlayer == Space.Player2)
+            else if (playersTurn == Space.Player2)
             {
-                winner = checkPlayer2(currPlayer);
+                winner = checkPlayer2(playersTurn);
             }
-            else if (currPlayer == Space.Player3)
+            else if (playersTurn == Space.Player3)
             {
-                winner = checkPlayer3(currPlayer);
+                winner = checkPlayer3(playersTurn);
             }
-            else if (currPlayer == Space.Player4)
+            else if (playersTurn == Space.Player4)
             {
-                winner = checkPlayer4(currPlayer);
+                winner = checkPlayer4(playersTurn);
             }
-            else if (currPlayer == Space.Player5)
+            else if (playersTurn == Space.Player5)
             {
-                winner = checkPlayer5(currPlayer);
+                winner = checkPlayer5(playersTurn);
             }
-            else if (currPlayer == Space.Player6)
+            else if (playersTurn == Space.Player6)
             {
-                winner = checkPlayer6(currPlayer);
+                winner = checkPlayer6(playersTurn);
             }
 
             return winner;
@@ -251,6 +247,86 @@ namespace CheckersLib
                     return -delx;
                 default:
                     return 0;
+            }
+        }
+
+        public void StartGame(int numHumans)
+        {
+            //randomly distribute players around the board
+            Random rnd = new Random();
+            for (int i = 0; i < numHumans; i++)
+            {
+                int index = rnd.Next(0, 6);
+                if (playerIsHuman[index] == false)
+                    playerIsHuman[index] = true;
+                else
+                    i--;
+            }
+
+            //choose a player to go first
+            playersTurn = (Space)rnd.Next(2, 7);
+        }
+
+        public String getPlayersTurn()
+        {
+            switch (playersTurn)
+            {
+                case Space.Player1:
+                    return "Orange";
+                case Space.Player2:
+                    return "Yellow";
+                case Space.Player3:
+                    return "Green";
+                case Space.Player4:
+                    return "Blue";
+                case Space.Player5:
+                    return "Purple";
+                case Space.Player6:
+                    return "Red";
+                default:
+                    return "none";
+            }
+        }
+
+        public String getPreviousPlayersTurn()
+        {
+            switch (playersTurn)
+            {
+                case Space.Player1:
+                    return "Red";
+                case Space.Player2:
+                    return "Orange";
+                case Space.Player3:
+                    return "Yellow";
+                case Space.Player4:
+                    return "Green";
+                case Space.Player5:
+                    return "Blue";
+                case Space.Player6:
+                    return "Purple";
+                default:
+                    return "none";
+            }
+        }
+
+        public void nextPlayersTurn()
+        {
+            if (playersTurn == Space.Player1)
+                playersTurn = Space.Player2;
+            else if (playersTurn == Space.Player2)
+                playersTurn = Space.Player3;
+            else if (playersTurn == Space.Player3)
+                playersTurn = Space.Player4;
+            else if (playersTurn == Space.Player4)
+                playersTurn = Space.Player5;
+            else if (playersTurn == Space.Player5)
+                playersTurn = Space.Player6;
+            else if (playersTurn == Space.Player6)
+                playersTurn = Space.Player1;
+            else
+            {
+                playersTurn = Space.None;
+                System.Console.WriteLine("Error,  players turn has been set to None/null");
             }
         }
     } // end Class GameManager

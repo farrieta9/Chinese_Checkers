@@ -31,15 +31,15 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tutorialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.singlePlayerBtn = new System.Windows.Forms.Button();
-            this.exitBtn = new System.Windows.Forms.Button();
             this.chineseCheckersLabel = new System.Windows.Forms.Label();
-            this.multiplayerBtn = new System.Windows.Forms.Button();
+            this.numHumansBox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numNPCbox = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.startGameBtn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +48,6 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.editToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -59,18 +58,10 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newGameToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
-            // 
-            // newGameToolStripMenuItem
-            // 
-            this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
-            this.newGameToolStripMenuItem.Text = "New Game";
-            this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -78,12 +69,6 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // editToolStripMenuItem
-            // 
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = "Edit";
             // 
             // helpToolStripMenuItem
             // 
@@ -100,29 +85,6 @@
             this.tutorialToolStripMenuItem.Text = "Tutorial";
             this.tutorialToolStripMenuItem.Click += new System.EventHandler(this.helpTutorial_Click);
             // 
-            // singlePlayerBtn
-            // 
-            this.singlePlayerBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.singlePlayerBtn.AutoSize = true;
-            this.singlePlayerBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.singlePlayerBtn.Location = new System.Drawing.Point(12, 261);
-            this.singlePlayerBtn.Name = "singlePlayerBtn";
-            this.singlePlayerBtn.Size = new System.Drawing.Size(78, 23);
-            this.singlePlayerBtn.TabIndex = 1;
-            this.singlePlayerBtn.Text = "Single Player";
-            this.singlePlayerBtn.UseVisualStyleBackColor = true;
-            // 
-            // exitBtn
-            // 
-            this.exitBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.exitBtn.Location = new System.Drawing.Point(481, 290);
-            this.exitBtn.Name = "exitBtn";
-            this.exitBtn.Size = new System.Drawing.Size(75, 23);
-            this.exitBtn.TabIndex = 4;
-            this.exitBtn.Text = "Exit";
-            this.exitBtn.UseVisualStyleBackColor = true;
-            this.exitBtn.Click += new System.EventHandler(this.exitBtn_Click);
-            // 
             // chineseCheckersLabel
             // 
             this.chineseCheckersLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -138,15 +100,60 @@
             this.chineseCheckersLabel.Text = "Chinese Checkers";
             this.chineseCheckersLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // multiplayerBtn
+            // numHumansBox
             // 
-            this.multiplayerBtn.Location = new System.Drawing.Point(12, 290);
-            this.multiplayerBtn.Name = "multiplayerBtn";
-            this.multiplayerBtn.Size = new System.Drawing.Size(78, 23);
-            this.multiplayerBtn.TabIndex = 6;
-            this.multiplayerBtn.Text = "Multi-Player";
-            this.multiplayerBtn.UseVisualStyleBackColor = true;
-            this.multiplayerBtn.Click += new System.EventHandler(this.multiplayerBtn_Click);
+            this.numHumansBox.FormattingEnabled = true;
+            this.numHumansBox.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"});
+            this.numHumansBox.Location = new System.Drawing.Point(202, 232);
+            this.numHumansBox.MaxDropDownItems = 7;
+            this.numHumansBox.Name = "numHumansBox";
+            this.numHumansBox.Size = new System.Drawing.Size(35, 21);
+            this.numHumansBox.TabIndex = 7;
+            this.numHumansBox.SelectedIndexChanged += new System.EventHandler(this.numHumansBox_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(243, 235);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Human players";
+            // 
+            // numNPCbox
+            // 
+            this.numNPCbox.AutoSize = true;
+            this.numNPCbox.Location = new System.Drawing.Point(224, 256);
+            this.numNPCbox.Name = "numNPCbox";
+            this.numNPCbox.Size = new System.Drawing.Size(13, 13);
+            this.numNPCbox.TabIndex = 10;
+            this.numNPCbox.Text = "0";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(243, 256);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Computer players";
+            // 
+            // startGameBtn
+            // 
+            this.startGameBtn.Location = new System.Drawing.Point(202, 272);
+            this.startGameBtn.Name = "startGameBtn";
+            this.startGameBtn.Size = new System.Drawing.Size(129, 23);
+            this.startGameBtn.TabIndex = 12;
+            this.startGameBtn.Text = "Start Game";
+            this.startGameBtn.UseVisualStyleBackColor = true;
+            this.startGameBtn.Click += new System.EventHandler(this.startGameBtn_Click);
             // 
             // mainForm
             // 
@@ -155,10 +162,12 @@
             this.BackgroundImage = global::ChineseCheckers.Properties.Resources.menuart;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(568, 325);
-            this.Controls.Add(this.multiplayerBtn);
+            this.Controls.Add(this.startGameBtn);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.numNPCbox);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.numHumansBox);
             this.Controls.Add(this.chineseCheckersLabel);
-            this.Controls.Add(this.exitBtn);
-            this.Controls.Add(this.singlePlayerBtn);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "mainForm";
@@ -175,15 +184,15 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newGameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tutorialToolStripMenuItem;
-        private System.Windows.Forms.Button singlePlayerBtn;
-        private System.Windows.Forms.Button exitBtn;
         private System.Windows.Forms.Label chineseCheckersLabel;
-        private System.Windows.Forms.Button multiplayerBtn;
+        private System.Windows.Forms.ComboBox numHumansBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label numNPCbox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button startGameBtn;
     }
 }
 

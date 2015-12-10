@@ -29,8 +29,6 @@ namespace CheckersLib
             {    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None,    Space.None, Space.Player4,    Space.None,    Space.None,    Space.None,    Space.None}
         };
 
-        public Space playersTurn = Space.Player1;
-
         public Board(Board SB)
         {
             setBoard(SB.currBoard);
@@ -179,77 +177,12 @@ namespace CheckersLib
             return moves;
         }
 
-        public String getPlayersTurn()
-        {
-            switch (playersTurn)
-            {
-                case Space.Player1:
-                    return "Orange";
-                case Space.Player2:
-                    return "Yellow";
-                case Space.Player3:
-                    return "Green";
-                case Space.Player4:
-                    return "Blue";
-                case Space.Player5:
-                    return "Purple";
-                case Space.Player6:
-                    return "Red";
-                default:
-                    return "none";
-            }
-        }
-
-        public String getPreviousPlayersTurn()
-        {
-            switch (playersTurn)
-            {
-                case Space.Player1:
-                    return "Red";
-                case Space.Player2:
-                    return "Orange";
-                case Space.Player3:
-                    return "Yellow";
-                case Space.Player4:
-                    return "Green";
-                case Space.Player5:
-                    return "Blue";
-                case Space.Player6:
-                    return "Purple";
-                default:
-                    return "none";
-            }
-        }
+        
 
         private bool validLocation(int i, int j)
         {
             return i >= 0 && i < 17 && j >= 0 && j < 17;
         }
 
-        public Space getWhosTurnItIs()
-        {
-            return playersTurn;
-        }
-
-        public void nextPlayersTurn()
-        {
-            if (playersTurn == Space.Player1)
-                playersTurn = Space.Player2;
-            else if (playersTurn == Space.Player2)
-                playersTurn = Space.Player3;
-            else if (playersTurn == Space.Player3)
-                playersTurn = Space.Player4;
-            else if (playersTurn == Space.Player4)
-                playersTurn = Space.Player5;
-            else if (playersTurn == Space.Player5)
-                playersTurn = Space.Player6;
-            else if (playersTurn == Space.Player6)
-                playersTurn = Space.Player1;
-            else
-            {
-                playersTurn = Space.None;
-                System.Console.WriteLine("Error,  players turn has been set to None/null");
-            }
-        }
     }
 }
