@@ -40,7 +40,12 @@
             this.numNPCbox = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.startGameBtn = new System.Windows.Forms.Button();
+            this.waitBetweenTurns = new System.Windows.Forms.TrackBar();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.waitBetweenTurns)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -66,7 +71,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -111,17 +116,17 @@
             "4",
             "5",
             "6"});
-            this.numHumansBox.Location = new System.Drawing.Point(202, 232);
+            this.numHumansBox.Location = new System.Drawing.Point(211, 176);
             this.numHumansBox.MaxDropDownItems = 7;
             this.numHumansBox.Name = "numHumansBox";
-            this.numHumansBox.Size = new System.Drawing.Size(35, 21);
+            this.numHumansBox.Size = new System.Drawing.Size(41, 21);
             this.numHumansBox.TabIndex = 7;
             this.numHumansBox.SelectedIndexChanged += new System.EventHandler(this.numHumansBox_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(243, 235);
+            this.label2.Location = new System.Drawing.Point(258, 179);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 13);
             this.label2.TabIndex = 9;
@@ -130,7 +135,7 @@
             // numNPCbox
             // 
             this.numNPCbox.AutoSize = true;
-            this.numNPCbox.Location = new System.Drawing.Point(224, 256);
+            this.numNPCbox.Location = new System.Drawing.Point(228, 200);
             this.numNPCbox.Name = "numNPCbox";
             this.numNPCbox.Size = new System.Drawing.Size(13, 13);
             this.numNPCbox.TabIndex = 10;
@@ -139,7 +144,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(243, 256);
+            this.label1.Location = new System.Drawing.Point(247, 200);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 13);
             this.label1.TabIndex = 11;
@@ -147,13 +152,51 @@
             // 
             // startGameBtn
             // 
-            this.startGameBtn.Location = new System.Drawing.Point(202, 272);
+            this.startGameBtn.Location = new System.Drawing.Point(211, 290);
             this.startGameBtn.Name = "startGameBtn";
-            this.startGameBtn.Size = new System.Drawing.Size(129, 23);
+            this.startGameBtn.Size = new System.Drawing.Size(124, 23);
             this.startGameBtn.TabIndex = 12;
             this.startGameBtn.Text = "Start Game";
             this.startGameBtn.UseVisualStyleBackColor = true;
             this.startGameBtn.Click += new System.EventHandler(this.startGameBtn_Click);
+            // 
+            // waitBetweenTurns
+            // 
+            this.waitBetweenTurns.LargeChange = 500;
+            this.waitBetweenTurns.Location = new System.Drawing.Point(211, 239);
+            this.waitBetweenTurns.Maximum = 1000;
+            this.waitBetweenTurns.Name = "waitBetweenTurns";
+            this.waitBetweenTurns.Size = new System.Drawing.Size(124, 45);
+            this.waitBetweenTurns.SmallChange = 100;
+            this.waitBetweenTurns.TabIndex = 13;
+            this.waitBetweenTurns.Value = 500;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(214, 223);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(121, 13);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Wait time between turns";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(341, 239);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(18, 13);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "1s";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(187, 239);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(18, 13);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "0s";
             // 
             // mainForm
             // 
@@ -162,6 +205,10 @@
             this.BackgroundImage = global::ChineseCheckers.Properties.Resources.menuart;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(568, 325);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.waitBetweenTurns);
             this.Controls.Add(this.startGameBtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numNPCbox);
@@ -175,6 +222,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainForm_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.waitBetweenTurns)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -193,6 +241,10 @@
         private System.Windows.Forms.Label numNPCbox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button startGameBtn;
+        private System.Windows.Forms.TrackBar waitBetweenTurns;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }
 
