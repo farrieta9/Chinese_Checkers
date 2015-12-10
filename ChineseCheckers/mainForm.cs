@@ -23,6 +23,7 @@ namespace ChineseCheckers
         protected bool gameHasStarted = false;
         public pieceObject reset1, reset2; // reset1 hold the old position, reset2 has the new position
         public bool made_move = false;
+        public int waitTime;
 
         public mainForm()
         {
@@ -50,28 +51,15 @@ namespace ChineseCheckers
             //check if a player has won
             if (GM.checkWinningMoves())
             {
-                System.Windows.Forms.MessageBox.Show(GM.playersTurn + " is the winna winna chicken dinna!");
+                System.Windows.Forms.MessageBox.Show(getColor(GM.playersTurn).ToString() + " is the winna winna chicken dinna!");
                 // @todo End game and return to initial menu
+                Application.Exit();
             }
 
             //if game is not over
             GM.nextPlayersTurn();
             reset1 = reset2 = null;
             made_move = false;
-
-            //while (GM.playerIsHuman[(int)GM.playersTurn - 2] == false)
-            //{
-            //    Move move = GM.MakeNPCMove();
-
-            //    GM.gameBoard.setSpace(move.End.Item1, move.End.Item2, move.Player);
-            //    GM.gameBoard.setSpace(move.Start.Item1, move.Start.Item2, Space.Empty);
-            //    getPieceObjectByPosition(move.End.Item1, move.End.Item2).setPieceColor(getColor(move.Player));
-            //    getPieceObjectByPosition(move.Start.Item1, move.Start.Item2).setPieceColor(getColor(Space.Empty));
-            //    GM.nextPlayersTurn();
-            //    Form currentForm = mainForm.ActiveForm;
-            //    currentForm.Refresh();
-            //    //System.Threading.Thread.Sleep(500);
-            //}
 
             //if the new player is an AI, take the turn
             if (GM.playerIsHuman[(int)GM.playersTurn - 2] == false)
@@ -84,7 +72,7 @@ namespace ChineseCheckers
                 getPieceObjectByPosition(move.Start.Item1, move.Start.Item2).setPieceColor(getColor(Space.Empty));
                 mainForm.ActiveForm.Refresh();
                 mainForm.ActiveForm.Activate();
-                //System.Threading.Thread.Sleep(200);
+                System.Threading.Thread.Sleep(waitTime);
                 endTurnEvent(this, null);
             }
             else
@@ -287,6 +275,7 @@ namespace ChineseCheckers
 
             GM = new GameManager();
             GM.StartGame(numHumansBox.SelectedIndex);
+            waitTime = waitBetweenTurns.Value;
 
             clearForm();
             InitializePieceControls();
@@ -327,6 +316,10 @@ namespace ChineseCheckers
             startGameBtn.Hide();
             label1.Hide();
             label2.Hide();
+            label3.Hide();
+            label4.Hide();
+            label5.Hide();
+            waitBetweenTurns.Hide();
 
             currentForm.BackgroundImage = null;
             currentForm.BackColor = Color.Black;
