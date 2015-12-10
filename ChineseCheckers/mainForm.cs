@@ -54,6 +54,7 @@ namespace ChineseCheckers
                 System.Windows.Forms.MessageBox.Show(getColor(GM.playersTurn).ToString() + " is the winna winna chicken dinna!");
                 // @todo End game and return to initial menu
                 Application.Exit();
+                return;
             }
 
             //if game is not over
@@ -71,8 +72,8 @@ namespace ChineseCheckers
                 getPieceObjectByPosition(move.End.Item1, move.End.Item2).setPieceColor(getColor(move.Player));
                 getPieceObjectByPosition(move.Start.Item1, move.Start.Item2).setPieceColor(getColor(Space.Empty));
                 mainForm.ActiveForm.Refresh();
-                mainForm.ActiveForm.Activate();
-                System.Threading.Thread.Sleep(waitTime);
+                if(waitTime > 0)
+                    System.Threading.Thread.Sleep(waitTime);
                 endTurnEvent(this, null);
             }
             else
