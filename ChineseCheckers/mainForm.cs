@@ -83,7 +83,8 @@ namespace ChineseCheckers
                 getPieceObjectByPosition(move.End.Item1, move.End.Item2).setPieceColor(getColor(move.Player));
                 getPieceObjectByPosition(move.Start.Item1, move.Start.Item2).setPieceColor(getColor(Space.Empty));
                 mainForm.ActiveForm.Refresh();
-                System.Threading.Thread.Sleep(500);
+                mainForm.ActiveForm.Activate();
+                //System.Threading.Thread.Sleep(200);
                 endTurnEvent(this, null);
             }
             else
