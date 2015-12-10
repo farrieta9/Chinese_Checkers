@@ -24,6 +24,8 @@ namespace ChineseCheckers
         public pieceObject reset1, reset2; // reset1 hold the old position, reset2 has the new position
         public bool made_move = false;
         public int waitTime;
+        private bool messageExists = false;
+        private Label gameMessage;
 
         public mainForm()
         {
@@ -51,8 +53,10 @@ namespace ChineseCheckers
             //check if a player has won
             if (GM.checkWinningMoves())
             {
+                displayMessage(getColor(GM.playersTurn).ToString() + " wins!", GM.playersTurn);
                 System.Windows.Forms.MessageBox.Show(getColor(GM.playersTurn).ToString() + " is the winna winna chicken dinna!");
                 // @todo End game and return to initial menu
+
                 Application.Exit();
                 return;
             }
@@ -65,6 +69,7 @@ namespace ChineseCheckers
             //if the new player is an AI, take the turn
             if (GM.playerIsHuman[(int)GM.playersTurn - 2] == false)
             {
+                displayMessage(getColor(GM.playersTurn).ToString() + " is thinking...", GM.playersTurn);
                 Move move = GM.MakeNPCMove();
 
                 GM.gameBoard.setSpace(move.End.Item1, move.End.Item2, move.Player);
@@ -78,8 +83,14 @@ namespace ChineseCheckers
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show(GM.getPreviousPlayersTurn() + "'s turn is over. Next turn goes to: " + GM.getPlayersTurn());
+                displayMessage(getColor(GM.playersTurn).ToString() + "'s turn", GM.playersTurn);
+                //System.Windows.Forms.MessageBox.Show(GM.getPreviousPlayersTurn() + "'s turn is over. Next turn goes to: " + GM.getPlayersTurn());
             }
+        }
+
+        public void exitEvent(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         public void resetTurnEvent(object sender, EventArgs e) //  Swapping the new position with the old position.
@@ -359,6 +370,21 @@ namespace ChineseCheckers
             message.Append(getColor(GM.playersTurn).ToString());
             message.Append(" will start.");
             System.Windows.Forms.MessageBox.Show(message.ToString());
+            displayMessage(getColor(GM.playersTurn).ToString() + " starts.", GM.playersTurn);
+        }
+
+        private void displayMessage(string message, Space player)
+        {
+            if (!messageExists)
+            {
+                gameMessage = label6;
+                gameMessage.Location = new Point(50, 550);
+                //gameMessage.BackColor = Color.White;
+                gameMessage.Show();
+                messageExists = true;
+            }
+            gameMessage.Text = message;
+            gameMessage.ForeColor = getColor(player);
         }
     }
 }
