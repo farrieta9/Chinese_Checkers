@@ -92,10 +92,6 @@
       <Project>{7e605466-233a-4891-99e1-a367f5f0d3fd}</Project>
       <Name>Classes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Server\Server.csproj">
-      <Project>{9eb94f45-a7fe-4ed7-9157-d96fa4e42cdc}</Project>
-      <Name>Server</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
