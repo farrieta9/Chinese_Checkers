@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 using CheckersLib;
 
 namespace ChineseCheckers
@@ -15,18 +16,19 @@ namespace ChineseCheckers
     {
         private Graphics pieceGraphics;
         private SolidBrush brush;
-        private Rectangle rect;
+        private Rectangle rectangle;
         private Color _color;
         private int xPos;
         private int yPos;
         public int[] position = new int[2];
         public bool highlighted = false;
 
-        public pieceObject(Graphics pGraphics, Color color, int i, int j)
-        {            
+        public pieceObject(Graphics graph, Rectangle rect, Color color, int i, int j)
+        {
+            pieceGraphics = graph;
             brush = new SolidBrush(color);
-            pieceGraphics = pGraphics;
-            //_color = color;
+            rectangle = rect;            
+            _color = color;
             position[0] = i;
             position[1] = j;
         }
@@ -36,9 +38,17 @@ namespace ChineseCheckers
             return pieceGraphics;
         }
 
-        public void setPieceGraphics(SolidBrush brush, Rectangle rect)
+        public void setPieceGraphics(SolidBrush newBrush, Rectangle rect)
         {
-            pieceGraphics.FillEllipse(brush, rect);
+            pieceGraphics = CreateGraphics();
+            brush = newBrush;
+            rectangle = rect;
+            pieceGraphics.FillEllipse(brush, rectangle);
+        }
+
+        public void setPieceGraphics(Graphics graph)
+        {
+            pieceGraphics = graph;
         }
 
         public int[] getPosition()
@@ -55,15 +65,14 @@ namespace ChineseCheckers
 
         public Color getPieceColor()
         {
-            return brush.Color;
-            //return _color;
+            return _color;
         }
 
         public void setPieceColor(Color newColor)
         {
             brush = new SolidBrush(newColor);
-            pieceGraphics.FillEllipse(brush, rect);
-            //_color = newColor;
+
+            _color = newColor;
             BackColor = newColor;            
         }
 
@@ -75,8 +84,7 @@ namespace ChineseCheckers
 
         public void removeHighlight()
         {
-            BackColor = brush.Color;
-            //BackColor = _color;
+            BackColor = _color;
             highlighted = false;
         }
 

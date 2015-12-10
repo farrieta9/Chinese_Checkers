@@ -7,16 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 using CheckersLib;
 
 namespace ChineseCheckers
 {
     public partial class mainForm : Form
     {
-        GameManager GM;
-        Tutorial Tutorial = new Tutorial();
+        GameManager GM = new GameManager();
+        Tutorial Tutorial = new Tutorial();        
         
         public event PaintEventHandler paint;
+        public PaintEventArgs pe;
         public pieceObject[] all_pieces = new pieceObject[121];
         public int count = 0;
         public pieceObject hold;
@@ -160,30 +162,33 @@ namespace ChineseCheckers
                 {
                     if (Board.isSpace(i, j))
                     {
-                        Graphics pieceGraphics;
-                        pieceGraphics = this.CreateGraphics();
-                        Space sp = GM.gameBoard.getSpace(i, j);
                         int xPos = getXFromIndex(i, j, width, xstart, ystart);
                         int yPos = getYFromIndex(i, j, width, xstart, ystart);
-
-                        pieceObject piece = new pieceObject(pieceGraphics, getColor(sp), i, j);
-                        piece.Click += pieceClicked;
-                        //piece.Size = new Size(20, 20);                        
-                        //piece.Location = new Point(xPos - del, yPos - del);
-                        //piece.BackColor = getColor(sp);                     
-
+                                                
+                        Space sp = GM.gameBoard.getSpace(i, j);
                         Size size = new Size(20, 20);
                         Point location = new Point(xPos - del, yPos - del);
                         Rectangle rect = new Rectangle(location, size);
                         SolidBrush brush = new SolidBrush(getColor(sp));
-                        piece.setPieceGraphics(brush, rect);
 
-                        brush.Dispose();                     
-                        pieceGraphics.Dispose();
+                        Graphics pieceGraphics = CreateGraphics();
+                        pieceGraphics.FillEllipse(brush, rect);
 
-                        this.Controls.Add(piece);
+                        pieceObject piece = new pieceObject(pieceGraphics, rect, getColor(sp), i, j);                        
+                        piece.Click += pieceClicked;
+                       
+                        piece.Size = new Size(20, 20);                        
+                        piece.Location = new Point(xPos - del, yPos - del);
+                        piece.BackColor = getColor(sp);
+                       
+                        
                         all_pieces[count] = piece;
+                        Controls.Add(all_pieces[count]);
+                        all_pieces[count].Visible = true;
                         count++;
+                        
+                        brush.Dispose();
+                        pieceGraphics.Dispose();
                     }
                 }
             }
@@ -195,8 +200,6 @@ namespace ChineseCheckers
         {
             if (!gameHasStarted)
             {
-                GM = new GameManager();
-
                 Form currentForm = mainForm.ActiveForm;
 
                 singlePlayerBtn.Hide();
