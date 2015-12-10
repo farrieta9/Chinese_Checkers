@@ -60,7 +60,7 @@ namespace CheckersLib
         public CheckersLib.Move MakeNPCMove()
         {
             List<Move> moves = gameBoard.getPlayerMoves(playersTurn);
-            int bestscore = -16;
+            int bestscore = -300;
             Move m = moves.First();
             foreach (Move curr in moves)
             {
@@ -234,19 +234,19 @@ namespace CheckersLib
             switch (mv.Player)
             {
                 case Space.Player1:
-                    return dely;
+                    return (dely) *16 - mv.Start.Item1;
                 case Space.Player2:
-                    return dely- delx;
+                    return (dely- delx)*16 - mv.Start.Item1 + mv.Start.Item2;
                 case Space.Player3:
-                    return -delx;
+                    return (-delx) * 16 + mv.Start.Item2;
                 case Space.Player4:
-                    return -dely;
+                    return (-dely) * 16 + mv.Start.Item1;
                 case Space.Player5:
-                    return delx- dely;
+                    return (delx- dely) * 16 - mv.Start.Item2 + mv.Start.Item1;
                 case Space.Player6:
-                    return delx;
+                    return (delx) * 16 - mv.Start.Item2;
                 default:
-                    return -16;
+                    return -300;
             }
         }
 

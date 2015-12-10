@@ -106,7 +106,9 @@ namespace CheckersLib
         public List<Tuple<int, int>> getMoves(int i, int j)
         {
             List<Tuple<int, int>> l = new List<Tuple<int, int>>();
-            if (!isPlayer(i, j)) return l;
+            Space s = getSpace(i, j);
+            Space goal = opp(s);
+            if (s==Space.Empty || s == Space.None) return l;
 
             bool[,] map = new bool[17, 17];
             map[i, j] = true;
@@ -120,7 +122,13 @@ namespace CheckersLib
                 {
                     if (id + jd == 0) continue;
                     if (isEmpty(i + id, j + jd))
-                        l.Add(new Tuple<int, int>(i + id, j + jd));
+                    {
+                        Space n = getStartSpace(i + id, j + jd);
+                        if ((n == s) || (n == goal) || (n==Space.Empty))
+                        {
+                            l.Add(new Tuple<int, int>(i + id, j + jd));
+                        }
+                    }
                     else
                         jump.Enqueue(new Tuple<int, int>(i + 2 * id, j + 2 * jd));
 
@@ -136,7 +144,11 @@ namespace CheckersLib
                 if (isEmpty(ii, jj) && !map[ii, jj])
                 {
                     map[ii, jj] = true;
-                    l.Add(next);
+                    Space n = getStartSpace(ii, jj);
+                    if ((n == s) || (n == goal) || (n == Space.Empty))
+                    {
+                        l.Add(next);
+                    }
                     for(int id = -1; id <= 1; ++id)
                     {
                         for (int jd = -1; jd <= 1; ++jd)
@@ -150,6 +162,27 @@ namespace CheckersLib
             }
             return l;
 
+        }
+
+        private Space opp(Space s)
+        {
+            switch (s)
+            {
+                case Space.Player1:
+                    return Space.Player4;
+                case Space.Player2:
+                    return Space.Player5;
+                case Space.Player3:
+                    return Space.Player6;
+                case Space.Player4:
+                    return Space.Player1;
+                case Space.Player5:
+                    return Space.Player2;
+                case Space.Player6:
+                    return Space.Player3;
+                default:
+                    return Space.Empty;
+            }
         }
 
         public List<Move> getPlayerMoves(Space player)

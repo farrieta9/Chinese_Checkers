@@ -51,6 +51,7 @@ namespace ChineseCheckers
             if (GM.checkWinningMoves())
             {
                 System.Windows.Forms.MessageBox.Show(GM.playersTurn + " is the winna winna chicken dinna!");
+                return;
                 // @todo End game and return to initial menu
             }
 
