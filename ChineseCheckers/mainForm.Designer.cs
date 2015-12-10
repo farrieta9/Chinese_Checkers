@@ -178,7 +178,6 @@
             this.waitBetweenTurns.Size = new System.Drawing.Size(165, 56);
             this.waitBetweenTurns.SmallChange = 100;
             this.waitBetweenTurns.TabIndex = 13;
-            this.waitBetweenTurns.Value = 500;
             // 
             // label3
             // 
